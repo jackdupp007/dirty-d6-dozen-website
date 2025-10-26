@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Campaign Registration - The Dirty d6 Dozen</title>
     <!-- Favicon Link -->
-    <link rel="icon" href="https://jnbprozkciguaqlmsdgq.supabase.co/storage/v1/object/public/prod.ephemeral.user.uploads/nr9n5n6byampbc4im8bxyp.png" type="image/png">
+    <link rel="icon" href="images/Invert_Small_Logo.png" type="image/png">
     
     <!-- Link to the same Google Fonts for consistency -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
             --font-display: 'Quantico', sans-serif;
         }
 
-                /* NEW: CSS to hide the honeypot field */
+        /* NEW: CSS to hide the honeypot field */
         .hidden {
             display: none;
         }
@@ -226,11 +226,6 @@
             transform: translateY(-2px);
         }
 
-        /* NEW: CSS to hide the honeypot field */
-        .hidden {
-            display: none;
-        }
-
         footer {
             background-color: #0d0d0d;
             color: var(--link-color);
@@ -299,7 +294,7 @@
             <p>Prepare your warband, champion! Fill out the form below to register for The Dirty d6 Dozen's Age of Sigmar: Warband Wars campaign. Once registered, you'll be added to the official player roster and leaderboard!</p>
             <p class="muted">All fields are required. Your Player Name, Faction, and Warband Name will appear on the public leaderboard.</p>
             
-            <form name="campaign-registration" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/.netlify/functions/register-player">
+            <form name="campaign-registration" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/.netlify/functions/register-player" onsubmit="handleRegistrationSubmit(event)"> <!-- ADDED onsubmit -->
                 <input type="hidden" name="form-name" value="campaign-registration" />
                 <p class="hidden">
                     <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
@@ -362,6 +357,45 @@
                 // Optionally display an error message if factions fail to load
             }
         });
+
+        // JavaScript function to handle form submission via Fetch API
+        async function handleRegistrationSubmit(event) {
+            event.preventDefault(); // Prevent default browser form submission
+
+            const form = event.target;
+            const submitButton = form.querySelector('input[type="submit"]');
+
+            submitButton.value = 'Registering...';
+            submitButton.disabled = true;
+
+            const formData = new FormData(form);
+            const body = new URLSearchParams(formData).toString();
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body
+                });
+
+                if (response.ok) {
+                    // On successful submission (function returns 200 OK), redirect to thank you page
+                    window.location.href = '/thank_you_registration.html';
+                } else {
+                    // Handle errors from the Netlify Function
+                    const errorData = await response.json();
+                    alert(`Registration failed: ${errorData.message || response.statusText}. Check console for details.`);
+                    console.error('Netlify Function Error:', errorData);
+                    submitButton.value = 'Register Warband';
+                    submitButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Network error during registration:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+                submitButton.value = 'Register Warband';
+                submitButton.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>
