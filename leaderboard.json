@@ -1,5 +1,4 @@
 [
   { "player_id": "player1", "player_name": "Bevan Bond", "faction": "Disciples of Tzeentch", "warband_name": "Finger Pointers", "campaign_points": 0, "territories_held": 0 },
   { "player_id": "player2", "player_name": "Ace", "faction": "Kharadron Overlords", "warband_name": "Short Floaters", "campaign_points": 0, "territories_held": 0 }
-  // ... and so on, with no comments like // Ensure all players from players.json are initialized here
 ]
