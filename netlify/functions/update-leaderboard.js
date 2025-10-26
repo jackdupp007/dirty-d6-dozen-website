@@ -1,48 +1,67 @@
 // netlify/functions/update-leaderboard.js
+
+// Ensure necessary libraries are imported
 const { Octokit } = require('@octokit/rest');
-const fetch = require('node-fetch'); // Netlify Functions use node-fetch
+const fetch = require('node-fetch');
 
-// Helper function to get file content from GitHub
-async function getFileContent(octokit, owner, repo, path, branch = 'main') {
-  try {
-    const { data } = await octokit.repos.getContent({
-      owner,
-      repo,
-      path,
-      branch,
-    });
-    return {
-      content: Buffer.from(data.content, 'base64').toString('utf8'),
-      sha: data.sha,
-    };
-  } catch (error) {
-    console.error(`Error getting file ${path}:`, error.message);
-    throw new Error(`Failed to retrieve ${path} from GitHub. Check file path or repo permissions. (Error: ${error.message})`);
-  }
-}
-
-// Helper function to update file content on GitHub
-async function updateFileContent(octokit, owner, repo, path, content, message, branch = 'main', sha) {
-  try {
-    await octokit.repos.createOrUpdateFileContents({
-      owner,
-      repo,
-      path,
-      message,
-      content: Buffer.from(content).toString('base64'),
-      sha,
-      branch,
-    });
-  } catch (error) {
-    console.error(`Error updating file ${path}:`, error.message);
-    throw new Error(`Failed to update ${path} on GitHub. Check branch, SHA, or repo permissions. (Error: ${error.message})`);
-  }
-}
-
+// Main Netlify Function handler
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
+
+  // Helper function to get file content from GitHub (defined within handler for cleaner scope)
+  const getFileContent = async (octokitInstance, owner, repo, path, branch = 'main') => {
+    try {
+      const { data } = await octokitInstance.repos.getContent({
+        owner,
+        repo,
+        path,
+        branch,
+      });
+      return {
+        content: Buffer.from(data.content, 'base64').toString('utf8'),
+        sha: data.sha,
+      };
+    } catch (error) {
+      console.error(`Error getting file ${path}:`, error.message);
+      // More detailed error for debugging
+      return {
+        statusCode: 500, 
+        body: JSON.stringify({ 
+          message: `Failed to retrieve ${path} from GitHub.`, 
+          githubError: error.message, 
+          stack: error.stack 
+        })
+      };
+    }
+  };
+
+  // Helper function to update file content on GitHub (defined within handler for cleaner scope)
+  const updateFileContent = async (octokitInstance, owner, repo, path, content, message, branch = 'main', sha) => {
+    try {
+      await octokitInstance.repos.createOrUpdateFileContents({
+        owner,
+        repo,
+        path,
+        message,
+        content: Buffer.from(content).toString('base64'),
+        sha,
+        branch,
+      });
+    } catch (error) {
+      console.error(`Error updating file ${path}:`, error.message);
+      // More detailed error for debugging
+      return {
+        statusCode: 500, 
+        body: JSON.stringify({ 
+          message: `Failed to update ${path} on GitHub.`, 
+          githubError: error.message, 
+          stack: error.stack 
+        })
+      };
+    }
+  };
 
   // Parse form data from event body
   const formData = new URLSearchParams(event.body);
@@ -64,12 +83,12 @@ exports.handler = async (event) => {
     timestamp: new Date().toISOString()
   };
 
-  // --- Configuration (YOUR UPDATED VALUES) ---
-  const githubRepoOwner = 'jackdupp007'; // <<< YOUR GITHUB USERNAME
-  const githubRepoName = 'dirty-d6-dozen-website'; // <<< YOUR REPOSITORY NAME
+  // --- Configuration ---
+  const githubRepoOwner = 'jackdupp007'; // YOUR GITHUB USERNAME
+  const githubRepoName = 'dirty-d6-dozen-website'; // YOUR REPOSITORY NAME
   const githubBranch = 'main'; // This is usually 'main'
   const leaderboardJsonPath = 'leaderboard.json';
-  const buildHookUrl = 'https://api.netlify.com/build_hooks/68fddeac22142bfd35779040'; // <<< YOUR NETLIFY BUILD HOOK URL
+  const buildHookUrl = 'https://api.netlify.com/build_hooks/68fddeac22142bfd35779040'; // YOUR NETLIFY BUILD HOOK URL
 
   // Initialize Octokit with the GITHUB_TOKEN from Netlify environment variables
   const octokit = new Octokit({
@@ -78,20 +97,28 @@ exports.handler = async (event) => {
 
   try {
     // 1. Fetch current leaderboard.json content and SHA from GitHub
-    const { content: currentLeaderboardContent, sha: leaderboardSha } = await getFileContent(
+    const leaderboardFile = await getFileContent(
       octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath, githubBranch
     );
-    let leaderboard = JSON.parse(currentLeaderboardContent);
+    // Check if getFileContent returned an error status code
+    if (leaderboardFile.statusCode) return leaderboardFile; 
+    let leaderboard = JSON.parse(leaderboardFile.content);
+    const leaderboardSha = leaderboardFile.sha;
 
     // 2. Update leaderboard data for Player 1
     const player1Index = leaderboard.findIndex(p => p.player_id === submission.player1_id);
     if (player1Index !== -1) {
         leaderboard[player1Index].campaign_points += submission.player1_score;
-        // Territories can be added here based on a rule (e.g., if score > 0, gain 1 territory)
-        // For now, let's keep it simple: points are just added.
     } else {
-        console.warn(`Player 1 (${submission.player1_name}) not found in leaderboard. This should not happen if all registered players are in leaderboard.json.`);
-        // Consider if you want to auto-add new players if not present, but it's best to pre-populate.
+        console.warn(`Player 1 (${submission.player1_name}) not found in leaderboard. Adding new entry.`);
+        leaderboard.push({
+            player_id: submission.player1_id,
+            player_name: submission.player1_name,
+            faction: 'Unknown', // Default if not found in pre-populated list
+            warband_name: 'Unknown', // Default if not found in pre-populated list
+            campaign_points: submission.player1_score,
+            territories_held: 0 // Default
+        });
     }
 
     // 3. Update leaderboard data for Player 2
@@ -99,14 +126,22 @@ exports.handler = async (event) => {
     if (player2Index !== -1) {
         leaderboard[player2Index].campaign_points += submission.player2_score;
     } else {
-        console.warn(`Player 2 (${submission.player2_name}) not found in leaderboard. This should not happen if all registered players are in leaderboard.json.`);
+        console.warn(`Player 2 (${submission.player2_name}) not found in leaderboard. Adding new entry.`);
+        leaderboard.push({
+            player_id: submission.player2_id,
+            player_name: submission.player2_name,
+            faction: 'Unknown', // Default if not found in pre-populated list
+            warband_name: 'Unknown', // Default if not found in pre-populated list
+            campaign_points: submission.player2_score,
+            territories_held: 0 // Default
+        });
     }
     
     // Sort leaderboard by campaign_points descending after updating
     leaderboard.sort((a, b) => b.campaign_points - a.campaign_points);
 
     // 4. Push updated leaderboard.json back to GitHub
-    await updateFileContent(
+    const updateResult = await updateFileContent(
       octokit,
       githubRepoOwner,
       githubRepoName,
@@ -116,6 +151,9 @@ exports.handler = async (event) => {
       githubBranch,
       leaderboardSha
     );
+    // Check if updateFileContent returned an error status code
+    if (updateResult && updateResult.statusCode) return updateResult;
+
 
     // 5. Trigger Netlify build hook to update the live site
     await fetch(buildHookUrl, { method: 'POST' });
@@ -126,10 +164,10 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
-    console.error('Netlify function error:', error);
+    console.error('Netlify function global error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Error processing game submission.', error: error.message }),
+      body: JSON.stringify({ message: 'Error processing game submission (function crashed).', error: error.message, stack: error.stack }),
     };
   }
 };
