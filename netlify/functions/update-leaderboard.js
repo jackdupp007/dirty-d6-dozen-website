@@ -4,7 +4,6 @@
 const { Octokit } = require('@octokit/rest');
 const fetch = require('node-fetch');
 
-// Main Netlify Function handler
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -25,14 +24,13 @@ exports.handler = async (event) => {
       };
     } catch (error) {
       console.error(`Error getting file ${path}:`, error.message);
-      // More detailed error for debugging
+      // Return a structured error for easier debugging
       return {
+        error: true,
         statusCode: 500, 
-        body: JSON.stringify({ 
-          message: `Failed to retrieve ${path} from GitHub.`, 
-          githubError: error.message, 
-          stack: error.stack 
-        })
+        message: `Failed to retrieve ${path} from GitHub.`, 
+        githubError: error.message, 
+        stack: error.stack 
       };
     }
   };
@@ -49,16 +47,16 @@ exports.handler = async (event) => {
         sha,
         branch,
       });
+      return { success: true };
     } catch (error) {
       console.error(`Error updating file ${path}:`, error.message);
-      // More detailed error for debugging
+      // Return a structured error for easier debugging
       return {
+        error: true,
         statusCode: 500, 
-        body: JSON.stringify({ 
-          message: `Failed to update ${path} on GitHub.`, 
-          githubError: error.message, 
-          stack: error.stack 
-        })
+        message: `Failed to update ${path} on GitHub.`, 
+        githubError: error.message, 
+        stack: error.stack 
       };
     }
   };
@@ -88,7 +86,8 @@ exports.handler = async (event) => {
   const githubRepoName = 'dirty-d6-dozen-website'; // YOUR REPOSITORY NAME
   const githubBranch = 'main'; // This is usually 'main'
   const leaderboardJsonPath = 'leaderboard.json';
-  const buildHookUrl = 'https://api.netlify.com/build_hooks/68fddeac22142bfd35779040'; // YOUR NETLIFY BUILD HOOK URL
+  // You need to replace 'YOUR_NETLIFY_BUILD_HOOK_URL' with the URL you copied for game submissions
+  const buildHookUrl = 'https://api.netlify.com/build_hooks/68fddeac22142bfd35779040'; // <<< YOUR GAME SUBMISSION BUILD HOOK URL
 
   // Initialize Octokit with the GITHUB_TOKEN from Netlify environment variables
   const octokit = new Octokit({
@@ -100,8 +99,7 @@ exports.handler = async (event) => {
     const leaderboardFile = await getFileContent(
       octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath, githubBranch
     );
-    // Check if getFileContent returned an error status code
-    if (leaderboardFile.statusCode) return leaderboardFile; 
+    if (leaderboardFile.error) return { statusCode: leaderboardFile.statusCode, body: JSON.stringify({ message: leaderboardFile.message, githubError: leaderboardFile.githubError }) };
     let leaderboard = JSON.parse(leaderboardFile.content);
     const leaderboardSha = leaderboardFile.sha;
 
@@ -110,14 +108,15 @@ exports.handler = async (event) => {
     if (player1Index !== -1) {
         leaderboard[player1Index].campaign_points += submission.player1_score;
     } else {
-        console.warn(`Player 1 (${submission.player1_name}) not found in leaderboard. Adding new entry.`);
+        console.warn(`Player 1 (${submission.player1_name}) not found in leaderboard. This should not happen if all registered players are in leaderboard.json.`);
+        // If player not found, gracefully add them with default faction/warband for now
         leaderboard.push({
             player_id: submission.player1_id,
             player_name: submission.player1_name,
-            faction: 'Unknown', // Default if not found in pre-populated list
-            warband_name: 'Unknown', // Default if not found in pre-populated list
+            faction: 'Unknown',
+            warband_name: 'Unknown',
             campaign_points: submission.player1_score,
-            territories_held: 0 // Default
+            territories_held: 0
         });
     }
 
@@ -126,14 +125,15 @@ exports.handler = async (event) => {
     if (player2Index !== -1) {
         leaderboard[player2Index].campaign_points += submission.player2_score;
     } else {
-        console.warn(`Player 2 (${submission.player2_name}) not found in leaderboard. Adding new entry.`);
+        console.warn(`Player 2 (${submission.player2_name}) not found in leaderboard. This should not happen if all registered players are in leaderboard.json.`);
+        // If player not found, gracefully add them with default faction/warband for now
         leaderboard.push({
             player_id: submission.player2_id,
             player_name: submission.player2_name,
-            faction: 'Unknown', // Default if not found in pre-populated list
-            warband_name: 'Unknown', // Default if not found in pre-populated list
+            faction: 'Unknown',
+            warband_name: 'Unknown',
             campaign_points: submission.player2_score,
-            territories_held: 0 // Default
+            territories_held: 0
         });
     }
     
@@ -142,21 +142,20 @@ exports.handler = async (event) => {
 
     // 4. Push updated leaderboard.json back to GitHub
     const updateResult = await updateFileContent(
-      octokit,
-      githubRepoOwner,
-      githubRepoName,
-      leaderboardJsonPath,
+      octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath,
       JSON.stringify(leaderboard, null, 2), // Pretty print JSON
       `Automated: Game report for ${submission.battleplan_name} between ${submission.player1_name} (${submission.player1_score}pts) and ${submission.player2_name} (${submission.player2_score}pts)`,
-      githubBranch,
-      leaderboardSha
+      githubBranch, leaderboardSha
     );
-    // Check if updateFileContent returned an error status code
-    if (updateResult && updateResult.statusCode) return updateResult;
+    if (updateResult.error) return { statusCode: updateResult.statusCode, body: JSON.stringify({ message: updateResult.message, githubError: updateResult.githubError }) };
 
 
     // 5. Trigger Netlify build hook to update the live site
-    await fetch(buildHookUrl, { method: 'POST' });
+    const buildHookResponse = await fetch(buildHookUrl, { method: 'POST' });
+    if (!buildHookResponse.ok) {
+        console.error('Failed to trigger Netlify build hook:', buildHookResponse.statusText);
+        return { statusCode: 500, body: JSON.stringify({ message: 'Failed to trigger Netlify site rebuild after updating files.' }) };
+    }
 
     return {
       statusCode: 200,
@@ -164,7 +163,7 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
-    console.error('Netlify function global error:', error);
+    console.error('Netlify function global catch error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'Error processing game submission (function crashed).', error: error.message, stack: error.stack }),

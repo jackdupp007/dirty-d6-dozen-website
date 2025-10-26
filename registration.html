@@ -299,7 +299,7 @@
             <p>Prepare your warband, champion! Fill out the form below to register for The Dirty d6 Dozen's Age of Sigmar: Warband Wars campaign. Once registered, you'll be added to the official player roster and leaderboard!</p>
             <p class="muted">All fields are required. Your Player Name, Faction, and Warband Name will appear on the public leaderboard.</p>
             
-            <form name="campaign-registration" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thank-you-registration">
+            <form name="campaign-registration" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/.netlify/functions/register-player">
                 <input type="hidden" name="form-name" value="campaign-registration" />
                 <p class="hidden">
                     <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
