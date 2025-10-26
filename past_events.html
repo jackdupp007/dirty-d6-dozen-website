@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Past Events & Galleries - The Dirty d6 Dozen</title>
+    <!-- Favicon Link -->
+    <link rel="icon" href="https://jnbprozkciguaqlmsdgq.supabase.co/storage/v1/object/public/prod.ephemeral.user.uploads/nr9n5n6byampbc4im8bxyp.png" type="image/png">
+
+    <!-- Link to the same Google Fonts for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Re-using the same CSS variables for consistent theme */
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --link-color: #A0A0A0;
+            --link-hover-color: #FFFFFF;
+            --accent-color: #D3D3D3;
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif;
+        }
+
+                        /* NEW: CSS to hide the honeypot field */
+        .hidden {
+            display: none;
+        }
+
+        /* All general styling from index.html is applied here for consistency */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth; /* Ensures smooth scroll when clicking "Return to Top" */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: #1a1a1a;
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* Styling for the "Return to Top" link */
+        .return-link {
+            color: var(--link-color);
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        .return-link:hover {
+            color: var(--link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Image Gallery Styling (for multiple images) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-item {
+            background-color: #2a2a2a;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            overflow: hidden; /* Ensures image corners are rounded */
+            box-shadow: 0 2px 5px rgba(0, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px; /* Fixed height for consistent grid appearance */
+            object-fit: cover; /* Crops image to cover the area */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--text-color);
+            font-size: 0.85em;
+            padding: 8px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-caption {
+            opacity: 1;
+        }
+
+        /* Styling for a single, prominent event image */
+        .single-event-image {
+            background-color: #2a2a2a;
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1);
+            margin: 20px auto 30px auto; /* Center with auto margins */
+            max-width: 80%; /* Takes up 80% of container width */
+            overflow: hidden;
+        }
+        .single-event-image a {
+            display: block; /* Make the entire container clickable */
+            text-decoration: none;
+        }
+        .single-event-image img {
+            width: 100%;
+            height: auto; /* Auto height to maintain aspect ratio */
+            max-height: 400px; /* Max height to prevent it from getting too tall */
+            object-fit: contain; /* Ensures the entire image is visible, no cropping */
+            display: block;
+            border-radius: 8px; /* Match container border-radius */
+        }
+        .single-event-image .caption {
+            background-color: #1a1a1a;
+            color: var(--text-color);
+            font-size: 0.9em;
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid rgba(211, 211, 211, 0.2);
+        }
+
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid var(--accent-color);
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #333333;
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        tr:nth-child(even) {
+            background-color: #222222;
+        }
+
+
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Adjustments (copied from index.html for consistency) */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            /* .cta-button not directly used here */
+            .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+            .gallery-item img { height: 150px; }
+            .single-event-image { max-width: 95%; margin: 15px auto 25px auto; } /* Adjust for mobile */
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+            .gallery-grid { gap: 10px; }
+            .gallery-item img { height: 120px; }
+            .single-event-image img { max-height: 300px; } /* Smaller max height on small phones */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="past_events.html">Past Events</a></li> <!-- Link to THIS new page (active) -->
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="past-events-intro" class="section-block">
+            <h1>Our Glorious Past</h1>
+            <h2>Archives of Battles Fought & Victories Won</h2>
+            <p>Welcome to the historical archives of The Dirty d6 Dozen! Here we celebrate the epic tournaments, thrilling narrative campaigns, and memorable club gatherings that have shaped our community.</p>
+            <p>Relive the triumphs, marvel at the painted miniatures, and see who claimed victory in our past engagements. Each event page details the action, showcases top players, and features galleries of the day's action!</p>
+        </section>
+
+        <!-- START OF NEW EVENT SECTION: Geelong 40k Town Open -->
+        <section id="geelong-40k-town-open" class="section-block">
+            <h2>Geelong 40k Town Open</h2>
+            <p>A landmark Warhammer 40,000 tournament for The Dirty d6 Dozen! This event saw our biggest representation yet at an external competition. The boys showed up in force and delivered some excellent performances on the tabletop!</p>
+            
+            <h3>Event Photo</h3>
+            <div class="single-event-image">
+                <a href="images/geelong40k01.jpg" target="_blank">
+                    <img src="images/geelong40k01.jpg" alt="Dirty d6 Dozen Club Members at Geelong 40k Town Open">
+                    <div class="caption">The Dirty d6 Dozen Crew at Geelong 40k Town Open</div>
+                </a>
+            </div>
+
+            <h3>Participants & Outcomes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Faction</th>
+                        <th>Final Standing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Jamie Wood</td><td>Dark Angels</td><td>2nd</td></tr>
+                    <tr><td>Richard Bracey</td><td>Necrons</td><td>9th</td></tr>
+                    <tr><td>Anthony Marshall</td><td>Space Marines</td><td>11th</td></tr>
+                    <tr><td>Mark-Anthony Baini</td><td>Emperor's Children</td><td>27th</td></tr>
+                    <tr><td>Michael McDonald</td><td>Aeldari</td><td>31st</td></tr>
+                    <tr><td>Bevan Bond</td><td>Imperial Knights</td><td>39th</td></tr>
+                    <tr><td>Ace</td><td>Death Guard</td><td>49th</td></tr>
+                    <tr><td>Tom McFarlane</td><td>World Eaters</td><td>50th</td></tr>
+                    <tr><td>Jaxon Gooney-Pace</td><td>Space Wolves</td><td>52nd</td></tr>
+                    <tr><td>Adam Cohen</td><td>Orks</td><td>54th</td></tr>
+                    <tr><td>Cooper Stubbs</td><td>Chaos Daemons</td><td>58th</td></tr>
+                </tbody>
+            </table>
+            <p class="notes">A fantastic showing by the entire team!</p>
+        </section>
+        <!-- END OF NEW EVENT SECTION -->
+
+
+        <!-- START OF EVENT SECTION: Warhammer 40k - RATCON April 2022 -->
+        <section id="ratcon-2022" class="section-block">
+            <h2>Warhammer 40k - RATCON April 2022</h2>
+            <p>A memorable Warhammer 40,000 tournament where The Dirty d6 Dozen made a strong showing! This event was a fantastic opportunity for our members to test their tactical skills and represent the club.</p>
+            
+            <h3>Event Photo</h3>
+            <div class="single-event-image">
+                <a href="images/ratcon01.jpg" target="_blank">
+                    <img src="images/ratcon01.jpg" alt="Dirty d6 Dozen Club Members at RATCON 2022">
+                    <div class="caption">The Dirty d6 Dozen Crew at RATCON - April 2022</div>
+                </a>
+            </div>
+
+            <h3>Participants & Outcomes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Faction</th>
+                        <th>Final Standing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Bradly Murphy</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Michael McDonald</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Anthony Marshall</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Richard Bracey</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Jason Horne</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Tom McFarlane</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Chris Coster</td><td>Unknown</td><td>Unknown</td></tr>
+                    <tr><td>Ben Trinick</td><td>Unknown</td><td>Unknown</td></tr>
+                    <!-- Add more <tr> for other players or notable mentions -->
+                </tbody>
+            </table>
+            <p class="notes">A great showing for the club at RATCON!</p>
+        </section>
+        <!-- END OF NEW EVENT SECTION -->
+
+
+        <!-- START OF EVENT SECTION: Call to Glory - CanCon 2023 -->
+        <section id="call-to-glory-cancon-2023" class="section-block">
+            <h2>Call to Glory - CanCon 2023</h2>
+            <p>A big trip to Canberra for a large Age of Sigmar tournament in 2023. It was a great weekend! Unfortunately, we cannot find any images or full results for this event. If anyone who went has photos or precise standings, please let us know so we can update this archive!</p>
+            
+            <!-- No gallery section here, as per your instruction -->
+            
+            <h3>Participants & Outcomes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Faction</th>
+                        <th>Final Standing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bevan Bond</td>
+                        <td>Beastclaw Raiders</td>
+                        <td>Unknown</td>
+                    </tr>
+                    <tr>
+                        <td>Adam Cohan</td>
+                        <td>Unknown</td>
+                        <td>Unknown</td>
+                    </tr>
+                    <tr>
+                        <td>Other Players</td>
+                        <td>Unknown</td>
+                        <td>Unknown</td>
+                    </tr>
+                    <!-- Add more <tr> for other players or notable mentions -->
+                </tbody>
+            </table>
+            <p class="notes">Canberra hosted us well, and it was a memorable trip for the club!</p>
+        </section>
+        <!-- END OF NEW EVENT SECTION -->
+
+
+        <!-- START OF INDIVIDUAL PAST EVENT SECTION -->
+        <section id="border-wars-2022" class="section-block">
+            <h2>Border Wars - May 2022</h2>
+            <p>Another Age of Sigmar tournament in the early era of the club. This event saw our members traveling to compete, further establishing The Dirty d6 Dozen on the tournament scene!</p>
+            
+            <h3>Event Photo</h3>
+            <div class="single-event-image">
+                <a href="images/borderwar01.jpg" target="_blank">
+                    <img src="images/borderwar01.jpg" alt="Dirty d6 Dozen Club Members at Border Wars 2022">
+                    <div class="caption">The Dirty d6 Dozen Crew at Border Wars - May 2022</div>
+                </a>
+            </div>
+
+            <h3>Participants & Outcomes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Faction</th>
+                        <th>Final Standing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hayden Ford</td>
+                        <td>Unknown</td>
+                        <td>4th</td>
+                    </tr>
+                    <tr>
+                        <td>Aiden (Ace)</td>
+                        <td>Unknown</td>
+                        <td>23rd</td>
+                    </tr>
+                    <tr>
+                        <td>Adam Cohan</td>
+                        <td>Unknown</td>
+                        <td>40th</td>
+                    </tr>
+                    <tr>
+                        <td>Bevan Bond</td>
+                        <td>Beastclaw Raiders</td>
+                        <td>41st</td>
+                    </tr>
+                    <tr>
+                        <td>Ben Murphy</td>
+                        <td>Unknown</td>
+                        <td>42nd</td>
+                    </tr>
+                    <!-- Add more <tr> for other players or notable mentions -->
+                </tbody>
+            </table>
+            <p class="notes">Well fought, everyone! Great representation for the club.</p>
+        </section>
+        <!-- END OF NEW INDIVIDUAL PAST EVENT SECTION -->
+
+        <!-- START OF VIC GT 2021 EVENT SECTION -->
+        <section id="VIC-GT-2021" class="section-block">
+            <h2>VIC GT - 2021</h2>
+            <p>Probably the first Event that the club went to waving the DD6D Flag. It was a great tournament and introduced our club to the tournament scene as well as introduced some of our players to the AoS community.</p>
+            
+            <h3>Event Gallery</h3>
+            <div class="gallery-grid">
+                <!-- Main Vic Image (Focus) -->
+                <div class="gallery-item">
+                    <a href="images/Mainvicimage.jpg" target="_blank">
+                        <img src="images/Mainvicimage.jpg" alt="Dirty d6 Dozen Club Members at VIC GT 2021">
+                        <div class="gallery-item-caption">The Dirty d6 Dozen at VIC GT 2021</div>
+                    </a>
+                </div>
+                <!-- Other images from the event -->
+                <div class="gallery-item">
+                    <a href="images/gt2101.jpg" target="_blank">
+                        <img src="images/gt2101.jpg" alt="Two players engaged in a game at VIC GT">
+                        <div class="gallery-item-caption">Intense Battle Round</div>
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="images/gt2102.jpg" target="_blank">
+                        <img src="images/gt2102.jpg" alt="Players discussing strategy over a game">
+                        <div class="gallery-item-caption">Strategic Discussions</div>
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="images/gt2103.jpg" target="_blank">
+                        <img src="images/gt2103.jpg" alt="Another game in progress at the tournament">
+                        <div class="gallery-item-caption">Another Clash of Armies</div>
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="images/gt2104.jpg" target="_blank">
+                        <img src="images/gt2104.jpg" alt="Players examining their armies on the tabletop">
+                        <div class="gallery-item-caption">Tabletop Action</div>
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="images/gt2105.jpg" target="_blank">
+                        <img src="images/gt2105.jpg" alt="Overview of the tournament hall with players">
+                        <div class="gallery-item-caption">Busy Tournament Hall</div>
+                    </a>
+                </div>
+            </div>
+
+            <h3>Participants & Outcomes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Faction</th>
+                        <th>Final Standing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bevan Bond</td>
+                        <td>Beastclaw Raiders</td>
+                        <td>6th (I think)</td>
+                    </tr>
+                    <tr>
+                        <td>Adam Cohan</td>
+                        <td>Kharadron Overlords (Maybe?)</td>
+                        <td>?</td>
+                    </tr>
+                    <tr>
+                        <td>Richie James</td>
+                        <td>Don't Know</td>
+                        <td>Too long ago</td>
+                    </tr>
+                    <tr>
+                        <td>Ace</td>
+                        <td>Slaves to Darkness</td>
+                        <td>Umm</td>
+                    </tr>
+                    <tr>
+                        <td>Ben Murphy</td>
+                        <td>Don't Know</td>
+                        <td>Find out later</td>
+                    </tr>
+                    <tr>
+                        <td>John Mac</td>
+                        <td>Don't Know</td>
+                        <td>Too long ago</td>
+                    </tr>
+                    <!-- Add more <tr> for other players or notable mentions -->
+                </tbody>
+            </table>
+            <p class="notes">A fantastic turnout for our first major AoS narrative! Stay tuned for the next saga.</p>
+        </section>
+        <!-- END OF VIC GT 2021 EVENT SECTION -->
+        
+        <div class="call-to-action">
+            <a href="#" class="return-link">Return to Top</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+</body>
+</html>

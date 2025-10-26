@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Meetup Details - The Dirty d6 Dozen</title>
+    <!-- Favicon Link -->
+    <link rel="icon" href="https://jnbprozkciguaqlmsdgq.supabase.co/storage/v1/object/public/prod.ephemeral.user.uploads/nr9n5n6byampbc4im8bxyp.png" type="image/png">
+    
+    <!-- Link to the same Google Fonts for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Re-using the same CSS variables for consistent theme */
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --link-color: #A0A0A0;
+            --link-hover-color: #FFFFFF;
+            --accent-color: #D3D3D3;
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif;
+        }
+
+                        /* NEW: CSS to hide the honeypot field */
+        .hidden {
+            display: none;
+        }
+
+        /* All general styling from index.html is applied here for consistency */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: #1a1a1a;
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #008CBA;
+            color: var(--text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .cta-button:hover {
+            background-color: #007bb5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .return-link {
+            color: var(--link-color);
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        .return-link:hover {
+            color: var(--link-hover-color);
+            text-decoration: none;
+        }
+
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Adjustments (copied from index.html for consistency) */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            .cta-button { font-size: 1em; padding: 12px 25px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#games">Games We Play</a></li>
+                <li><a href="events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="past_events.html">Past Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="weekly-meetup-intro" class="section-block">
+            <h1>Our Weekly Muster!</h1>
+            <h2>What to Expect at The Dirty d6 Dozen Meetups</h2>
+            <p>Thinking of joining us for a game? Fantastic! Our weekly meetups are the heart of the club – a chance to roll dice, connect with fellow hobbyists, and enjoy the worlds of tabletop gaming. Here's what you can expect when you come along:</p>
+        </section>
+
+        <section id="when-where" class="section-block">
+            <h2>When & Where</h2>
+            <p>We gather **Every Wednesday** at **Good Games Greenborough**.</p>
+            <p>The doors are open from <strong>3PM</strong>..ish to <strong>10PM</strong>.......ish. Feel free to drop in anytime during these hours, though arriving earlier means more game time!</p>
+            <p class="muted"><strong>Address:</strong> <strong>61 Main St, Greensborough VIC 3088</strong></p>
+            <p class="muted">Plenty of parking available.</p>
+        </section>
+
+        <section id="what-to-bring" class="section-block">
+            <h2>What To Bring (And What Not To Worry About)</h2>
+            <ul>
+                <li><strong>Your Army:</strong> If you have one, bring your miniatures ready for battle!</li>
+                <li><strong>Dice & Tools:</strong> Your trusty dice, tape measure, and any rulebooks/codices you might need.</li>
+                <li><strong>Enthusiasm:</strong> A friendly attitude and a love for the hobby are all you truly need!</li>
+            </ul>
+            <p><strong>Don't have an army yet?</strong> No problem! Many club members have spare armies they're happy to lend for an intro game. Just let us know, or drop by to observe and learn. We're happy to teach new players the ropes.</p>
+            <p><strong>Planning to paint?</strong> Bring your current project! We often have members painting and are happy to share tips.</p>
+        </section>
+
+        <section id="games-played" class="section-block">
+            <h2>Typical Games Played</h2>
+            <p>While schedules can vary, you'll most often find games of:</p>
+            <ul>
+                <li>Warhammer Age of Sigmar</li>
+                <li>Warhammer 40,000</li>
+                <li>Star Wars: Shatterpoint</li>
+                <li>And sometimes other skirmish games or board games!</li>
+            </ul>
+            <p>If you're looking for a specific game, it's always a good idea to [<strong>Contact Us / Check Discord</strong>] beforehand to see who's playing what.</p>
+        </section>
+
+        <section id="faq" class="section-block">
+            <h2>Frequently Asked Questions</h2>
+            <h3>Q: Is there a cost to attend?</h3>
+            <p><strong>A:</strong> Our weekly meetups are free to attend.</p>
+            <h3>Q: Do I need to be a member?</h3>
+            <p><strong>A:</strong> There is not offically a member registry, just come and play with and for us and you will be a member.</p>
+            <h3>Q: Can I just come to watch?</h3>
+            <p><strong>A:</strong> Absolutely! Feel free to come along, see what games are being played, and chat with members. It's a great way to get a feel for the club.</p>
+        </section>
+
+        <div class="call-to-action">
+            <a href="index.html#contact" class="cta-button">Have More Questions? Contact Us!</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+</body>
+</html>

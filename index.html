@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Dirty d6 Dozen - Wargaming Club</title>
+    <!-- Favicon Link (NEW!) -->
+    <link rel="icon" href="images/Invert_Small_Logo.png" type="image/png"> <!-- UPDATED PATH -->
+    
+    <!-- Google Fonts import: Quantico for headings, Roboto for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for easy theme changes */
+        :root {
+            --bg-color: #000000; /* Black background */
+            --text-color: #FFFFFF; /* White text */
+            --link-color: #A0A0A0; /* Light grey for links */
+            --link-hover-color: #FFFFFF; /* White on hover */
+            --accent-color: #D3D3D3; /* Light grey accent for borders/details */
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif; /* Military-style font for headings */
+        }
+
+        /* NEW: CSS to hide the honeypot field (should be in all files) */
+        .hidden {
+            display: none;
+        }
+
+        /* Basic Resets & Body Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth; /* Ensures smooth scroll when clicking "Return to Top" */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Header & Banner */
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        /* Main Content Styling */
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: #1a1a1a;
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        /* Styling for the "Return to Top" link */
+        .return-link-container {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .return-link {
+            color: var(--link-color);
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        .return-link:hover {
+            color: var(--link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" /> <!-- UPDATED PATH -->
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#games">Games We Play</a></li>
+                <li><a href="events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="past_events.html">Past Events</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="welcome" class="section-block">
+            <h1>Welcome, Fellow Wargamer!</h1>
+            <p>Welcome to **The Dirty d6 Dozen**, your premier destination for tabletop wargaming in the local area! We are a friendly, enthusiastic club dedicated to all things miniature, dice, and epic battles. Whether you're a seasoned veteran or just starting your journey into the vast worlds of Warhammer, X-Wing, Marvel Crisis Protocol, or any other tabletop game, you'll find a welcoming community here.</p>
+            <p>Our members enjoy a vibrant mix of casual games, competitive play, painting sessions, and narrative campaigns that bring the lore to life. Come roll some dice with us!</p>
+        </section>
+
+        <section id="about" class="section-block">
+            <h2>About The Dirty d6 Dozen</h2>
+            <p>Founded by a group of passionate hobbyists, The Dirty d6 Dozen strives to be a welcoming and inclusive club for wargamers of all skill levels. We believe in fostering a fun environment where sportsmanship and camaraderie are just as important as tactical prowess.</p>
+            <p>We meet <strong>Every Wednesday</strong> at <strong>Good Games Greenborough</strong>. New members are always welcome to drop by, say hello, and join a game. Don't have an army? No problem! Many of us have spare forces for introductory games.</p>
+            <h3>Our Philosophy</h3>
+            <ul>
+                <li><strong>Community First:</strong> Building friendships and a supportive environment.</li>
+                <li><strong>Learn &amp; Grow:</strong> Helping new players get started and veterans refine their skills.</li>
+                <li><strong>Diverse Gaming:</strong> Playing a wide array of systems, from fantasy to sci-fi.</li>
+            </ul>
+        </section>
+
+        <section id="games" class="section-block">
+            <h2>Games We Play</h2>
+            <p>While our hearts truly belong to the Warhammer universes (Age of Sigmar &amp; 40,000), our tables see a diverse range of systems:</p>
+            <ul>
+                <li><strong>Warhammer Age of Sigmar:</strong> Epic fantasy battles in the Mortal Realms.</li>
+                <li><strong>Warhammer 40,000:</strong> Grimdark sci-fi warfare in the 41st millennium.</li>
+                <li><strong>Star Wars:Shatterpoint</strong> The force powered skirmishes in the Star Wars universe.</li>
+                <li>And many more! If you play it, chances are someone here does too!</li>
+            </ul>
+        </section>
+
+        <section id="contact" class="section-block">
+            <h2>Get In Touch</h2>
+            <p>Interested in our club or just want to learn more? Feel free to reach out to us!</p>
+            <p>You can find us on:</p>
+            <ul>
+                <li><strong>Facebook:</strong> <a href="#" style="color:var(--link-hover-color);">The Dirty d6 Dozen Facebook Group</a></li>
+                <li><strong>Discord:</strong> <a href="#" style="color:var(--link-hover-color);">Join our Discord Server</a></li>
+            </ul>
+            <p>We look forward to rolling dice with you!</p>
+        </section>
+    </main>
+
+    <div class="return-link-container">
+        <a href="#" class="return-link">Return to Top</a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" /> <!-- UPDATED PATH -->
+        </div>
+    </footer>
+</body>
+</html>
