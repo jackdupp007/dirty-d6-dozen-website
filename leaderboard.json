@@ -4,15 +4,7 @@
     "player_name": "Bevan Bond",
     "faction": "Disciples of Tzeentch",
     "warband_name": "Finger Pointers",
-    "campaign_points": 0,
-    "territories_held": 0
-  },
-  {
-    "player_id": "player2",
-    "player_name": "Ace",
-    "faction": "Kharadron Overlords",
-    "warband_name": "Short Floaters",
-    "campaign_points": 0,
+    "campaign_points": 14,
     "territories_held": 0
   },
   {
@@ -20,6 +12,14 @@
     "player_name": "Adam Cohan",
     "faction": "Gloomspite Gitz",
     "warband_name": "Squid Smokers",
+    "campaign_points": 8,
+    "territories_held": 0
+  },
+  {
+    "player_id": "player2",
+    "player_name": "Ace",
+    "faction": "Kharadron Overlords",
+    "warband_name": "Short Floaters",
     "campaign_points": 0,
     "territories_held": 0
   }
