@@ -1,4 +1,20 @@
 [
-  { "id": "player1", "name": "Bevan Bond", "faction": "Disciples of Tzeentch", "warband_name": "Finger Pointers" },
-  { "id": "player2", "name": "Ace", "faction": "Kharadron Overlords", "warband_name": "Short Floaters" }
+  {
+    "id": "player1",
+    "name": "Bevan Bond",
+    "faction": "Disciples of Tzeentch",
+    "warband_name": "Finger Pointers"
+  },
+  {
+    "id": "player2",
+    "name": "Ace",
+    "faction": "Kharadron Overlords",
+    "warband_name": "Short Floaters"
+  },
+  {
+    "id": "bobby63553",
+    "name": "bobby",
+    "faction": "Maggotkin of Nurgle",
+    "warband_name": "gurglers"
+  }
 ]
