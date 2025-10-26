@@ -1,0 +1,6 @@
+[build]
+  publish = "." # Your publish directory, usually the root for static sites
+  command = "npm install --prefix netlify/functions" # Command to install function dependencies
+
+[functions]
+  directory = "netlify/functions" # The directory where your functions are located
