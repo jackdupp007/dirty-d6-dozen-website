@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Race to the Relic — AoS4 (500 pt)</title>
+  <title>Battleplan: Race to the Relic — AoS4 (500 pt)</title>
   <!-- Favicon Link -->
-  <link rel="icon" href="images/Invert_Small_Logo.png" type="image/png"> <!-- Assuming favicon is in /images -->
+  <link rel="icon" href="images/Invert_Small_Logo.png" type="image/png">
 
   <!-- Google Fonts import: Quantico for headings, Roboto for body -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
@@ -44,22 +44,66 @@
       scroll-behavior: smooth;
     }
 
-    .container{
+    .container{ /* General container for content width */
       max-width: 1200px;
-      margin: 18px auto;
-      padding: 10px;
+      margin: 0 auto;
+      padding: 0 15px; /* Added horizontal padding to container */
       box-sizing: border-box;
     }
 
-    /* The main page wrapper, now flows content in a single column */
-    .page {
-      padding: 0;
-      box-shadow: none;
-      border: none;
-      background: none;
-      display: flex;
-      flex-direction: column;
-      gap: 30px; /* Space between the main content blocks */
+    /* Header Styling */
+    header {
+        background-color: var(--bg-color);
+        padding: 20px 0; /* Padding handled by header itself */
+        text-align: center;
+    }
+
+    .banner-img {
+        max-width: 90%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Navigation Styling */
+    nav {
+        background-color: var(--bg-color);
+        padding: 10px 0; /* Padding handled by nav itself */
+        text-align: center;
+        border-top: 1px solid var(--accent-color);
+        border-bottom: 1px solid var(--accent-color);
+        margin-bottom: 30px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+
+    nav ul li a {
+        color: var(--link-color);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1em;
+        transition: color 0.3s ease;
+        font-family: var(--font-display);
+    }
+
+    nav ul li a:hover {
+        color: var(--link-hover-color);
+    }
+
+    main { /* Main content area, now only a flex container for sections */
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 30px; /* Space between main sections */
     }
 
     .title {
@@ -79,7 +123,7 @@
       text-align: center;
     }
 
-    /* Standard section-block styling (matches index.html) */
+    /* Standard section-block styling */
     .section-block {
         background-color: var(--block-bg-color);
         border: 1px solid var(--accent-color);
@@ -125,10 +169,9 @@
 
     strong { color: var(--text-color); font-weight:700; }
 
-    /* Map Image Section Styling (now also a section-block) */
+    /* Map Image Section Styling */
     .map-section {
       text-align: center;
-      /* Inherits section-block styling */
     }
     .map-section img {
       max-width: 100%;
@@ -171,7 +214,7 @@
     .start-game-button:hover, .confirm-players-button:hover {
       background-color: var(--button-primary-hover);
     }
-    .pdf-button {
+    .pdf-button { /* PDF button is also an action-button */
       background-color: var(--link-color);
     }
     .pdf-button:hover {
@@ -179,7 +222,7 @@
     }
 
 
-    /* Player Selection & Game UI Styling (now also a section-block) */
+    /* Player Selection & Game UI Styling */
     .player-selection-panel, .game-tracking-panel {
         background-color: var(--block-bg-color);
         border: 1px solid var(--accent-color);
@@ -259,6 +302,56 @@
 
     .notes { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
 
+    /* Footer styling */
+    footer {
+        background-color: #0d0d0d;
+        color: var(--link-color);
+        text-align: center;
+        padding: 25px 0;
+        border-top: 1px solid var(--accent-color);
+        margin-top: 40px;
+    }
+
+    .footer-logo {
+        max-width: 60px;
+        height: auto;
+        margin-top: 15px;
+        opacity: 0.8;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Call-to-action button container styling */
+    .call-to-action {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Standard CTA button style */
+    .cta-button {
+        display: inline-block;
+        background-color: var(--button-primary);
+        color: var(--text-color);
+        padding: 15px 30px;
+        text-decoration: none;
+        font-family: var(--font-display);
+        font-size: 1.2em;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        letter-spacing: 1px;
+        font-weight: 700;
+        max-width: 300px;
+        box-sizing: border-box;
+    }
+
+    .cta-button:hover {
+        background-color: var(--button-primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+    }
+
     /* Responsive adjustments */
     @media (max-width: 800px){
       main { gap: 20px; }
@@ -272,6 +365,7 @@
       .player-selection-panel, .game-tracking-panel { padding: 15px; }
       .player-score-controls button { padding: 6px 10px; font-size: 0.85em; }
       .player-selection-panel select, .game-tracking-panel input[type="number"], .game-tracking-panel input[type="text"] { font-size: 0.9em; padding: 8px; }
+      .cta-button { font-size: 1em; padding: 12px 25px; max-width: 100%; }
     }
 
     @media (max-width: 420px){
@@ -305,89 +399,51 @@
 
     <main class="container">
         <!-- Battleplan Title & Subtitle Section -->
-        <section class="section-block" style="margin-bottom:0;"> 
-            <div class="title">Battleplan: The Ritual</div>
-            <div class="subtitle">An Age of Sigmar Narrative Mission (AoS v4 Adapted)</div>
-        </section>
-
-        <!-- New: Campaign Introduction/Context -->
-        <section class="section-block">
-            <h2>Across the Mortal Realms...</h2>
-            <p>...the gods look on as their worshippers fight and die in their name. Should the correct rituals be performed, it will surely spell destruction for their foes. This battleplan pits two forces against each other in a desperate race against time to either complete or disrupt a potent arcane ritual!</p>
-            <h3>The Armies (AoS v4)</h3>
-            <p>Each player selects an army of an agreed-upon points value (e.g., <strong>1000 or 2000 points</strong>). Players then decide who will be the <strong>Ritualist</strong> and who will be the <strong>Disrupter</strong>. If one player's army has a significantly higher total points value (e.g., <strong>25% more or more</strong>), that player must be the Disrupter. Otherwise, both players roll a D6, and the player who rolls higher chooses whether to be the Ritualist or the Disrupter.</p>
-            <p>Each General (or designated leader) has a unique Command Ability available to them, in addition to any others they may possess.</p>
-        </section>
-
-        <!-- New: Objectives Overview -->
-        <section class="section-block">
-            <h2>Objectives</h2>
-            <h3>Ritualist's Objectives</h3>
-            <p>You are on the verge of completing a powerful ritual to achieve your destiny. Your primary goal is to **complete the ritual (see 'The Ritual' rule below)**. You must fight through the enemy to protect the Artefact and finish what you started!</p>
-            <h3>Disrupter's Objectives</h3>
-            <p>Your mighty warhost is tasked with preventing a hated foe from completing a dire ritual. Your primary goal is to **Shatter the Artefact (see 'Shatter the Artefact' Command Ability below)**. Fight your way past the Ritualist's forces and destroy the focus of their ceremony!</p>
+        <section class="section-block" style="margin-bottom:0;">
+            <div class="title">Battleplan: Race to the Relic</div>
+            <div class="subtitle">Fast racing scenario for 500‑point warbands — web/mobile friendly</div>
         </section>
 
         <!-- 1st: Rules & Setup Section -->
         <section class="section-block">
-            <h2>The Battlefield & Setup</h2>
-            <p>The battle takes place near an ancient, tainted artefact. A suitable piece of Terrain (e.g., a Baleful Realmgate, large statue, or arcane device) is placed anywhere in the Ritualist's territory to represent the Artefact. No model may move through this terrain feature.</p>
-            <p>Generate the rest of the scenery for this battle using the current Warhammer: Age of Sigmar Core Rules for Battle Scenery and Terrain Features.</p>
+            <h2>Setup</h2>
+            <p><strong>Points:</strong> 500 pts per player or Spearhead vs Spearhead.</p>
+            <p><strong>Board size:</strong> 4' x 4' recommended (use 4' x 6' if you want more running room).</p>
+            <p class="muted">Terrain: LOS blockers so no army can be seen at deployment.</p>
 
-            <h3>Set-Up</h3>
-            <p>Do not use the standard set-up instructions from the Core Rules. Instead, players take turns setting up units one at a time, starting with the player who deployed first. Your territory is defined by the map below. Units must be set up wholly within your own territory and more than <strong>9"</strong> from enemy territory. No model may deploy within <strong>3"</strong> of the Artefact.</p>
-            
-            <h3>First Turn</h3>
-            <p>In the first battle round, the **Disrupter decides who will take the first turn.** (This overrides the standard roll-off for priority in the first battle round).</p>
+            <h2>Deployment &amp; Relic placement</h2>
+            <p>Place the <strong>Relic</strong> on the centreline, <strong>6"</strong> from the short table edge of the player who goes second. Deployment follows normal rules. The first player may move toward the Relic but <strong>cannot pick it up on Turn 1</strong>.</p>
+
+            <h2>Special Rules (Relic &amp; Carrying)</h2>
+            <ul>
+              <li><strong>Picking up:</strong> A model can pick up the Relic if it ends a Move or Charge within <strong>1"</strong> of it.</li>
+              <li><strong>Carrying:</strong> Only the designated model is the carrier. Carrier’s Movement is reduced by <strong>1"</strong> and the carrier <strong>cannot run</strong>.</li>
+              <li class="muted">Flying: Flying units lose their Flying keyword while carrying the Relic; the relic is too heavy to lift.</li>
+              <li><strong>Dropping:</strong> Carrier may drop at the end of its Movement; if removed from play the Relic drops where it left play.</li>
+              <li><strong>Teleporting:</strong> A unit cannot be teleported while carrying the Relic. If a rule attempts to teleport a unit that has the Relic, the Relic is dropped at the unit's original location instead.</li>
+              <li><strong>Contested:</strong> If within <strong>3"</strong> of models from both players the Relic is contested and cannot be delivered.</li>
+              <li><strong>Relic Combat:</strong> If the unit carrying the Relic is engaged in combat, it may forgo fighting to make a break‑free attempt: after all eligible units have taken their combat actions, the carrier may attempt to break free and move its Movement characteristic to disengage (subject to core break‑free rules).</li>
+            </ul>
+
+            <h2>Turn &amp; First Turn</h2>
+            <p>Game uses the normal core turn sequence. <strong>First player cannot pick up the Relic on Turn 1.</strong></p>
+
+            <h2>Victory Conditions</h2>
+            <p><strong>Immediate race win:</strong> If at the end of your Movement phase you have the Relic within <strong>3"</strong> of your opponent’s short edge and you control it (not contested), you immediately win.</p>
+            <p class="muted">If no immediate winner by end of Round 6, score points:</p>
+            <ul>
+              <li>3 pts — Relic is in opponent’s half (beyond centreline)</li>
+              <li>2 pts — Controls Relic (carrier or uncontested presence within 3") at game end</li>
+              <li>1 pt — More models within 6" of the Relic at game end</li>
+              <li>Tiebreaker: most battleline units remaining, then defender of deployment if still tied</li>
+            </ul>
         </section>
 
         <!-- 2nd: Battleplan Map Section -->
         <section class="section-block map-section">
             <h2>Battleplan Map</h2>
-            <img src="images/the_ritual_map.jpg" alt="Battleplan map for The Ritual scenario (AoS v4)" />
-            <p><strong>Map Overview:</strong> The battlefield is divided into two main territories. The Ritualist's territory (often red/orange) and the Disrupter's territory (often blue/grey). The Artefact is placed centrally, marking the heart of the conflict.</p>
-            <p class="notes">Note: Ensure your map image (`the_ritual_map.jpg` in your /images folder) reflects these deployment zones and the central artefact placement.</p>
-        </section>
-
-        <!-- New: Scoring Victory Points for AoS4 -->
-        <section class="section-block">
-            <h2>Scoring Victory Points (AoS v4)</h2>
-            <p>This battle lasts for 5 Battle Rounds. Each player should keep track of their Victory Points (VP) throughout the game. The player with the most VP at the end of Battle Round 5 wins!</p>
-
-            <h3>1. Battleplan Objectives (Score at the end of each Battle Round)</h3>
-            <ul>
-                <li><strong>Ritualist's Progress:</strong> If the Artefact is wholly within the Ritualist's territory and is uncontested, the Ritualist scores <strong>3 Victory Points</strong>.</li>
-                <li><strong>Ritualist's Protection:</strong> If the Ritualist's General is wholly within 12" of the Artefact, the Ritualist scores <strong>2 Victory Points</strong>.</li>
-                <li><strong>Disrupter's Pressure:</strong> If the Artefact is contested (i.e., within 3" of at least one Disrupter unit AND at least one Ritualist unit), the Disrupter scores <strong>3 Victory Points</strong>.</li>
-                <li><strong>Disrupter's Advance:</strong> If the Disrupter's General is wholly within 12" of the Artefact, the Disrupter scores <strong>2 Victory Points</strong>.</li>
-            </ul>
-
-            <h3>2. End-Game Victory Points (Score at the end of Battle Round 5)</h3>
-            <ul>
-                <li><strong>Ritual Completed! (Ritualist):</strong> If the cumulative total of all Ritual rolls is 20 or more, the Ritualist scores an additional <strong>30 Victory Points</strong>.</li>
-                <li><strong>Artefact Shattered! (Disrupter):</strong> If the Artefact was shattered by the Disrupter's Command Ability, the Disrupter scores an additional <strong>30 Victory Points</strong>.</li>
-                <li><strong>Slay the Leadership:</strong> The player who slays the opposing player's General (original or any replacement) scores an additional <strong>10 Victory Points</strong>.</li>
-                <li><strong>Control the Scene:</strong> The player who controls the Artefact (has more models within 3" of it) at the end of Battle Round 5 scores an additional <strong>5 Victory Points</strong>.</li>
-            </ul>
-            <p class="notes">Players also score Victory Points from their chosen Battle Tactics and Grand Strategies as per the Warhammer: Age of Sigmar Core Rules.</p>
-        </section>
-
-
-        <!-- New: Special Rules & Victory Conditions adapted for AoS4 -->
-        <section class="section-block">
-            <h2>Special Rules for The Ritual</h2>
-
-            <h3>Ritualist's Command Ability: Destroy At All Costs</h3>
-            <p>Your General can use this Command Ability in your **Command Phase**. Pick D3 friendly units from your army that are wholly within 12" of this General. Until the **end of the current battle round**, add 1 to the Hit rolls and subtract 1 from the Save rolls made for these units. This Command Ability can only be used once per battle.</p>
-
-            <h3>Disrupter's Command Ability: Shatter the Artefact</h3>
-            <p>Your General (or the designated Second in Command, see below) can use this Command Ability in your **Command Phase**. If they are within 3" of the Artefact terrain feature, roll a D6. On a roll of 2+, the Artefact is shattered. If the Artefact is shattered, the **Disrupter scores an additional 30 Victory Points** at the end of Battle Round 5.</p>
-
-            <h3>Second in Command</h3>
-            <p>If the Disrupter's General is slain, they can immediately pick a friendly **HERO** to take their place as the General for the rest of the battle. This replacement can only happen once. If this replacement General is also slain (or if no other HERO is available to replace the original General), then the **Ritualist scores an additional 30 Victory Points** at the end of Battle Round 5.</p>
-
-            <h3>The Ritual</h3>
-            <p>The Ritualist rolls a D6 in each of their **Hero Phases**. Add 1 to the roll for each friendly **WIZARD** or **PRIEST** wholly within 12" of the Artefact. Subtract 1 from the roll for each enemy **WIZARD** or **PRIEST** wholly within 36" of the Artefact. The roll cannot be increased beyond 6 or reduced to less than 1. Keep a note of the cumulative sum of these rolls. This cumulative total is used for the 'Ritual Completed!' End-Game Victory Point condition.</p>
+            <img src="images/race_to_relic_map.jpg" alt="Battleplan map for Race to the Relic scenario" /> <!-- UPDATED IMAGE SRC -->
+            <p><strong>Map Key &amp; Placement:</strong> Replace `images/race_to_relic_map.jpg` with your generated map image. This map should show the 4'x4' board, relic start, terrain, and deployment zones. Ensure the Relic is marked 6" from Player B's short edge, and include any legend on the image itself.</p>
         </section>
 
         <!-- 3rd: Player Input / Game Tracking Section -->
@@ -461,34 +517,30 @@
         <section class="section-block">
             <h2>Balance Tips & Resources</h2>
             <ul>
-                <li>For a balanced game, ensure both armies are built to the same agreed-upon points value (e.g., 1000pts, 2000pts).</li>
-                <li>Consider the impact of the unique Command Abilities when building your army lists.</li>
-                <li>The Disrupter wants to get to the Artefact quickly; the Ritualist wants to control the centre and screen.</li>
+                <li>For a balanced game, ensure both armies are built to the same agreed-upon points value (e.g., 500pts).</li>
+                <li>Consider the impact of units with high Movement or Teleportation abilities in this race scenario.</li>
+                <li>Focus on securing the relic and moving it towards your opponent's edge.</li>
                 <li><strong>PDF Rules:</strong> <button class="action-button pdf-button" onclick="window.print()">Save this Battleplan as PDF</button></li>
             </ul>
             <div class="notes">
-                <strong>Quick tactics:</strong> use your General's unique Command Ability at the opportune moment!
+                <strong>Quick tactics:</strong> use a fast skirmisher to grab the Relic, supported by screens to slow the enemy.
             </div>
         </section>
 
         <!-- 5th: Quick FAQ Section -->
         <section class="section-block">
             <h2>Quick FAQ & Clarifications</h2>
-            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">What happens if both win conditions are met?</button>
+            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">How is 'control' determined?</button>
             <div class="content">
-                <p>If both Artefact shattered and Ritual completed conditions are met, the player who achieved their condition last (or in the current turn) generally takes precedence for the 30VP. If it happens outside a player's turn (e.g., from a reaction), the players should agree on precedence, or the game is a Draw.</p>
+                <p>Control of the Relic is typically determined by having more models within 3" of it than your opponent. Refer to your chosen rulebook's general objective control rules if clarification is needed.</p>
             </div>
-            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">What if the Disrupter has no other HERO?</button>
+            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">What if the Relic is contested at game end?</button>
             <div class="content">
-                <p>As per the 'Second in Command' rule, if the Disrupter's General is slain and there are no other eligible HERO units to become the new General, the Ritualist scores an additional 30 Victory Points at the end of Battle Round 5.</p>
+                <p>As per the 'Immediate Race Win' rule, if the Relic is contested, no player achieves an immediate win. If the game ends on Round 6 with the Relic contested, then neither player scores the 'Control Relic' points for that condition, and the other end-game points and tiebreakers apply.</p>
             </div>
-            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">Can units near the Artefact be attacked?</button>
+            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">Can heroes carry the Relic?</button>
             <div class="content">
-                <p>Yes, the Artefact is a piece of Impassable scenery that models cannot move through, but models can be in base contact with it or in its zone (if it has one). Units can fight or shoot at units near/on the Artefact as normal.</p>
-            </div>
-            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">How do Battle Tactics and Grand Strategies work?</button>
-            <div class="content">
-                <p>Players choose these from the current Core Rules. They provide additional VP. Aim to complete these alongside the battleplan's specific objectives!</p>
+                <p>Yes, any model (including Heroes) can pick up and carry the Relic, subject to the movement restrictions mentioned in the 'Special Rules (Relic & Carrying)' section.</p>
             </div>
         </section>
 
@@ -515,7 +567,7 @@
             player1Score: 0, // Player 1's Victory Points
             player2CP: 0,
             player2Score: 0, // Player 2's Victory Points
-            battleplan: 'The Ritual' // This scenario's name
+            battleplan: 'Race to the Relic' // This scenario's name
         };
 
         // --- DOM Element References ---
@@ -629,12 +681,9 @@
 
         // Ends a round, increments round counter
         endRoundButton.addEventListener('click', () => {
-            // You might want to add a confirmation here
             gameData.currentRound++;
             currentRoundDisplay.textContent = gameData.currentRound;
             alert(`Round ${gameData.currentRound - 1} ended. Starting Round ${gameData.currentRound}.`);
-            // Reset CP or take other end-of-round actions if needed
-            // For simplicity, CP is not reset automatically here, but you can add that logic.
         });
 
         // Ends the game and prepares for submission
@@ -658,7 +707,7 @@
                 player2_name: gameData.player2.name,
                 player2_score: gameData.player2Score,
 
-                battleplan_name: gameData.battleplan,
+                battleplan_name: gameData.battleplan, // This will be 'Spearhead / Custom Battleplan'
                 total_rounds: gameData.currentRound // Total rounds played
             };
 

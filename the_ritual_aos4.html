@@ -34,26 +34,27 @@
         }
 
         /* Basic page */
-        body {
-            margin: 0;
-            padding: 0;
+        html,body{
+            margin:0;
+            padding:0;
             font-family: var(--font-main);
-            background-color: var(--bg-color);
+            background-color: var(--bg-color); /* Apply main black background */
             color: var(--text-color);
             line-height: 1.6;
             scroll-behavior: smooth;
         }
 
-        .container {
+        .container{ /* General container for content width */
             max-width: 1200px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 0 15px; /* Added horizontal padding to container */
             box-sizing: border-box;
         }
 
+        /* Header Styling */
         header {
             background-color: var(--bg-color);
-            padding: 20px 0;
+            padding: 20px 0; /* Padding handled by header itself */
             text-align: center;
         }
 
@@ -64,9 +65,10 @@
             margin: 0 auto;
         }
 
+        /* Navigation Styling */
         nav {
             background-color: var(--bg-color);
-            padding: 10px 0;
+            padding: 10px 0; /* Padding handled by nav itself */
             text-align: center;
             border-top: 1px solid var(--accent-color);
             border-bottom: 1px solid var(--accent-color);
@@ -97,11 +99,11 @@
             color: var(--link-hover-color);
         }
 
-        main {
+        main { /* Main content area, now only a flex container for sections */
             padding: 20px 0;
             display: flex;
             flex-direction: column;
-            gap: 30px; /* Spacing between main sections */
+            gap: 30px; /* Space between main sections */
         }
 
         .title {
@@ -121,6 +123,7 @@
             text-align: center;
         }
 
+        /* Standard section-block styling */
         .section-block {
             background-color: var(--block-bg-color);
             border: 1px solid var(--accent-color);
@@ -129,7 +132,7 @@
             box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
         }
 
-        h2 {
+        h2{
             font-family: var(--font-display);
             color: var(--text-color);
             text-align: center;
@@ -144,12 +147,14 @@
         }
         h3 {
             font-family: var(--font-display);
+            color: var(--text-color); /* Ensure h3 is visible */
             font-size: 1.2em;
             text-align: left;
             letter-spacing: 1px;
             margin-top: 15px;
             margin-bottom: 10px;
         }
+
         h4 { /* For player names in tracking UI */
             font-family: var(--font-display);
             font-size: 1.1em;
@@ -165,7 +170,7 @@
 
         strong { color: var(--text-color); font-weight:700; }
 
-        /* Battleplan Map Section Styling */
+        /* Map Image Section Styling */
         .map-section {
           text-align: center;
         }
@@ -210,12 +215,13 @@
         .start-game-button:hover, .confirm-players-button:hover {
           background-color: var(--button-primary-hover);
         }
-        .pdf-button {
+        .pdf-button { /* PDF button is also an action-button */
           background-color: var(--link-color);
         }
         .pdf-button:hover {
           background-color: var(--muted);
         }
+
 
         /* Player Selection & Game UI Styling */
         .player-selection-panel, .game-tracking-panel {
@@ -297,6 +303,56 @@
 
         .notes { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
 
+        /* Footer styling */
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Call-to-action button container styling */
+        .call-to-action {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Standard CTA button style */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--button-primary);
+            color: var(--text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            font-weight: 700;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+
+        .cta-button:hover {
+            background-color: var(--button-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 800px){
           main { gap: 20px; }
@@ -310,6 +366,7 @@
           .player-selection-panel, .game-tracking-panel { padding: 15px; }
           .player-score-controls button { padding: 6px 10px; font-size: 0.85em; }
           .player-selection-panel select, .game-tracking-panel input[type="number"], .game-tracking-panel input[type="text"] { font-size: 0.9em; padding: 8px; }
+          .cta-button { font-size: 1em; padding: 12px 25px; max-width: 100%; }
         }
 
         @media (max-width: 420px){
@@ -343,7 +400,7 @@
 
     <main class="container">
         <!-- Battleplan Title & Subtitle Section -->
-        <section class="section-block" style="margin-bottom:0;"> 
+        <section class="section-block" style="margin-bottom:0;">
             <div class="title">Battleplan: The Ritual</div>
             <div class="subtitle">An Age of Sigmar Narrative Mission (AoS v4 Adapted)</div>
         </section>
@@ -396,7 +453,7 @@
             <ul>
                 <li><strong>Ritualist's Progress:</strong> If the Artefact is wholly within the Ritualist's territory and is uncontested, the Ritualist scores <strong>3 Victory Points</strong>.</li>
                 <li><strong>Ritualist's Protection:</strong> If the Ritualist's General is wholly within 12" of the Artefact, the Ritualist scores <strong>2 Victory Points</strong>.</li>
-                <li><strong>Disrupter's Pressure:</strong> If the Artefact is contested (i.e., within 3" of at least one Disrupter unit AND at least one Ritualist unit), the Disrupter scores <strong>3 Victory Points</strong>.</li>
+                <li><strong>Disrupter's Pressure:</b> If the Artefact is contested (i.e., within 3" of at least one Disrupter unit AND at least one Ritualist unit), the Disrupter scores <strong>3 Victory Points</strong>.</li>
                 <li><strong>Disrupter's Advance:</strong> If the Disrupter's General is wholly within 12" of the Artefact, the Disrupter scores <strong>2 Victory Points</strong>.</li>
             </ul>
 
@@ -428,7 +485,7 @@
             <p>The Ritualist rolls a D6 in each of their **Hero Phases**. Add 1 to the roll for each friendly **WIZARD** or **PRIEST** wholly within 12" of the Artefact. Subtract 1 from the roll for each enemy **WIZARD** or **PRIEST** wholly within 36" of the Artefact. The roll cannot be increased beyond 6 or reduced to less than 1. Keep a note of the cumulative sum of these rolls. This cumulative total is used for the 'Ritual Completed!' End-Game Victory Point condition.</p>
         </section>
 
-        <!-- 3rd: Player Input / Game Tracking Section -->
+        <!-- Player Input / Game Tracking Section -->
         <section id="game-controls-section" class="section-block">
             <button class="action-button start-game-button" id="startGameButton">Start New Game!</button>
 
@@ -495,7 +552,7 @@
             </div>
         </section>
 
-        <!-- 4th: Balance Tips Section -->
+        <!-- Balance Tips Section -->
         <section class="section-block">
             <h2>Balance Tips & Resources</h2>
             <ul>
@@ -509,7 +566,7 @@
             </div>
         </section>
 
-        <!-- 5th: Quick FAQ Section -->
+        <!-- Quick FAQ Section -->
         <section class="section-block">
             <h2>Quick FAQ & Clarifications</h2>
             <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">What happens if both win conditions are met?</button>
@@ -522,7 +579,7 @@
             </div>
             <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">Can units near the Artefact be attacked?</button>
             <div class="content">
-                <p>Yes, the Artefact is a piece of Impassable scenery that models cannot move through, but units can be in base contact with it or in its zone. Units can fight or shoot at units near/on the Artefact as normal.</p>
+                <p>Yes, the Artefact is a piece of Impassable scenery that models cannot move through, but models can be in base contact with it or in its zone (if it has one). Units can fight or shoot at units near/on the Artefact as normal.</p>
             </div>
             <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">How do Battle Tactics and Grand Strategies work?</button>
             <div class="content">
@@ -667,12 +724,9 @@
 
         // Ends a round, increments round counter
         endRoundButton.addEventListener('click', () => {
-            // You might want to add a confirmation here
             gameData.currentRound++;
             currentRoundDisplay.textContent = gameData.currentRound;
             alert(`Round ${gameData.currentRound - 1} ended. Starting Round ${gameData.currentRound}.`);
-            // Reset CP or take other end-of-round actions if needed
-            // For simplicity, CP is not reset automatically here, but you can add that logic.
         });
 
         // Ends the game and prepares for submission
@@ -696,7 +750,7 @@
                 player2_name: gameData.player2.name,
                 player2_score: gameData.player2Score,
 
-                battleplan_name: gameData.battleplan,
+                battleplan_name: gameData.battleplan, // This will be 'The Ritual'
                 total_rounds: gameData.currentRound // Total rounds played
             };
 
