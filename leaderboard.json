@@ -30,13 +30,5 @@
     "warband_name": "Short Floaters",
     "campaign_points": 0,
     "territories_held": 0
-  },
-  {
-    "player_id": "bob34245",
-    "player_name": "Bob",
-    "faction": "Nighthaunt",
-    "warband_name": "Float Legs",
-    "campaign_points": 0,
-    "territories_held": 0
   }
 ]
