@@ -18,7 +18,7 @@ async function getFileContent(octokitInstance, owner, repo, path, branch = 'main
     };
   } catch (error) {
     console.error(`Error getting file ${path} from GitHub:`, error.message);
-    throw new Error(`Failed to retrieve ${path} from GitHub. (Error: ${error.message})`); // Throw for main handler to catch
+    throw new Error(`Failed to retrieve ${path} from GitHub. (Error: ${error.message})`);
   }
 }
 
@@ -37,7 +37,7 @@ async function updateFileContent(octokitInstance, owner, repo, path, content, me
     return { success: true };
   } catch (error) {
     console.error(`Error updating file ${path} on GitHub:`, error.message);
-    throw new Error(`Failed to update ${path} on GitHub. (Error: ${error.message})`); // Throw for main handler to catch
+    throw new Error(`Failed to update ${path} on GitHub. (Error: ${error.message})`);
   }
 }
 
@@ -50,24 +50,22 @@ exports.handler = async (event) => {
   const formData = new URLSearchParams(event.body);
   const playerIdToAdjust = formData.get('player_id');
   const pointsChange = parseInt(formData.get('points_change'));
-  const territoriesChange = parseInt(formData.get('territories_change'));
   const adminKey = formData.get('admin_key');
 
   // --- Configuration ---
-  const githubRepoOwner = 'jackdupp007'; // <<< YOUR GITHUB USERNAME
-  const githubRepoName = 'dirty-d6-dozen-website'; // <<< YOUR REPOSITORY NAME
+  const githubRepoOwner = 'jackdupp007'; // YOUR GITHUB USERNAME
+  const githubRepoName = 'dirty-d6-dozen-website'; // YOUR REPOSITORY NAME
   const githubBranch = 'main';
   const leaderboardJsonPath = 'leaderboard.json';
-  // You need to replace 'YOUR_NETLIFY_ADMIN_ACTION_BUILD_HOOK_URL' with the URL you created for admin actions
-  const adminActionBuildHookUrl = 'https://api.netlify.com/build_hooks/68ff172f6eae16f13be0652e'; 
+  const adminActionBuildHookUrl = 'https://api.netlify.com/build_hooks/68ff172f6eae16f13be0652e'; // YOUR ADMIN ACTION BUILD HOOK URL
 
   // Check Admin Key
   if (adminKey !== process.env.ADMIN_KEY) {
       console.warn('Unauthorized attempt to adjust score with incorrect Admin Key.');
       return { statusCode: 401, body: JSON.stringify({ message: 'Unauthorized: Incorrect Admin Key.' }) };
   }
-  if (!playerIdToAdjust || isNaN(pointsChange) || isNaN(territoriesChange)) {
-      return { statusCode: 400, body: JSON.stringify({ message: 'Player ID, points change, and territories change are required and must be numbers.' }) };
+  if (!playerIdToAdjust || isNaN(pointsChange)) { // Only check pointsChange now
+      return { statusCode: 400, body: JSON.stringify({ message: 'Player ID and points change are required and must be numbers.' }) };
   }
 
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
@@ -82,7 +80,7 @@ exports.handler = async (event) => {
     const playerIndex = leaderboard.findIndex(p => p.player_id === playerIdToAdjust);
     if (playerIndex !== -1) {
         leaderboard[playerIndex].campaign_points = Math.max(0, leaderboard[playerIndex].campaign_points + pointsChange);
-        leaderboard[playerIndex].territories_held = Math.max(0, leaderboard[playerIndex].territories_held + territoriesChange);
+        // Removed: leaderboard[playerIndex].territories_held = Math.max(0, leaderboard[playerIndex].territories_held + territoriesChange);
     } else {
         return { statusCode: 404, body: JSON.stringify({ message: `Player with ID ${playerIdToAdjust} not found in leaderboard.` }) };
     }
@@ -94,7 +92,7 @@ exports.handler = async (event) => {
     await updateFileContent(
       octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath,
       JSON.stringify(leaderboard, null, 2),
-      `Automated: Adjust score for ${leaderboard[playerIndex].player_name} (Points: ${pointsChange}, Territories: ${territoriesChange})`,
+      `Automated: Adjust score for ${leaderboard[playerIndex].player_name} (Points: ${pointsChange})`, // Updated commit message
       githubBranch, leaderboardSha
     );
 

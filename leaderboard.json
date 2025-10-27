@@ -5,7 +5,6 @@
     "faction": "Disciples of Tzeentch",
     "warband_name": "Finger Pointers",
     "campaign_points": 18,
-    "territories_held": 0
   },
   {
     "player_id": "adamcohan34023",
@@ -13,7 +12,6 @@
     "faction": "Gloomspite Gitz",
     "warband_name": "Squid Smokers",
     "campaign_points": 8,
-    "territories_held": 0
   },
   {
     "player_id": "aiden45602",
@@ -21,7 +19,6 @@
     "faction": "Ossiarch Bonereapers",
     "warband_name": "The Unfed",
     "campaign_points": 5,
-    "territories_held": 0
   },
   {
     "player_id": "player2",
@@ -29,7 +26,6 @@
     "faction": "Kharadron Overlords",
     "warband_name": "Short Floaters",
     "campaign_points": 0,
-    "territories_held": 0
   },
   {
     "player_id": "bob34245",
@@ -37,6 +33,5 @@
     "faction": "Nighthaunt",
     "warband_name": "Float Legs",
     "campaign_points": 0,
-    "territories_held": 0
   }
 ]

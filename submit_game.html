@@ -414,6 +414,7 @@
                 if (response.ok) {
                     window.location.href = '/thank_you.html'; // Redirect on successful function execution
                 } else {
+                    // Handle errors from the Netlify Function
                     const errorData = await response.json(); // Assuming function returns JSON error
                     alert(`Submission failed: ${errorData.message || response.statusText}. Check console for details.`);
                     console.error('Netlify Function Error:', errorData);

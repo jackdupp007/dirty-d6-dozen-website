@@ -319,7 +319,7 @@
 
         <section id="score-adjustment" class="section-block admin-controls" style="display:none;">
             <h2>Adjust Player Scores</h2>
-            <p class="muted">Select a player and enter the *amount to add or subtract* from their current Campaign Points and Territories Held. Use negative numbers to subtract.</p>
+            <p class="muted">Select a player and enter the *amount to add or subtract* from their current Campaign Points. Use negative numbers to subtract.</p>
             <div class="form-group">
                 <label for="adjustPlayerSelect">Player to Adjust:</label>
                 <select id="adjustPlayerSelect" required>
@@ -330,10 +330,7 @@
                 <label for="pointsChange">Campaign Points Change:</label>
                 <input type="number" id="pointsChange" value="0" placeholder="e.g., 10 or -5" />
             </div>
-            <div class="form-group">
-                <label for="territoriesChange">Territories Held Change:</label>
-                <input type="number" id="territoriesChange" value="0" placeholder="e.g., 1 or -1" />
-            </div>
+            <!-- Removed: Territories Held Change -->
             <button class="cta-button" id="adjustScoreButton">Adjust Score</button>
             <p id="adjustScoreMessage" style="color:var(--link-hover-color); font-size:0.9em; margin-top:10px;"></p>
         </section>
@@ -367,7 +364,7 @@
         const adminPlayerList = document.getElementById('adminPlayerList');
         const adjustPlayerSelect = document.getElementById('adjustPlayerSelect');
         const pointsChangeInput = document.getElementById('pointsChange');
-        const territoriesChangeInput = document.getElementById('territoriesChange');
+        // Removed: territoriesChangeInput
         const adjustScoreButton = document.getElementById('adjustScoreButton');
         const adjustScoreMessage = document.getElementById('adjustScoreMessage');
 
@@ -459,25 +456,25 @@
         adjustScoreButton.addEventListener('click', async () => {
             const playerId = adjustPlayerSelect.value;
             const pointsChange = parseInt(pointsChangeInput.value);
-            const territoriesChange = parseInt(territoriesChangeInput.value);
+            // Removed: territoriesChange
 
             if (!playerId) {
                 adjustScoreMessage.style.color = 'red';
                 adjustScoreMessage.textContent = 'Please select a player.';
                 return;
             }
-            if (isNaN(pointsChange) || isNaN(territoriesChange)) {
+            if (isNaN(pointsChange)) { // Only check pointsChange now
                 adjustScoreMessage.style.color = 'red';
-                adjustScoreMessage.textContent = 'Points and Territories must be numbers.';
+                adjustScoreMessage.textContent = 'Points change must be a number.';
                 return;
             }
-            if (pointsChange === 0 && territoriesChange === 0) {
+            if (pointsChange === 0) { // Only check pointsChange now
                 adjustScoreMessage.style.color = 'orange';
                 adjustScoreMessage.textContent = 'No changes entered.';
                 return;
             }
 
-            const confirmAdjust = confirm(`Confirm adjustment for ${adjustPlayerSelect.options[adjustPlayerSelect.selectedIndex].text}:\nPoints: ${pointsChange > 0 ? '+' : ''}${pointsChange}\nTerritories: ${territoriesChange > 0 ? '+' : ''}${territoriesChange}`);
+            const confirmAdjust = confirm(`Confirm adjustment for ${adjustPlayerSelect.options[adjustPlayerSelect.selectedIndex].text}:\nPoints: ${pointsChange > 0 ? '+' : ''}${pointsChange}`);
             if (!confirmAdjust) return;
 
             const adminKey = prompt("Please enter the Admin Key to confirm score adjustment:");
@@ -490,7 +487,7 @@
                 const response = await fetch('/.netlify/functions/adjust-player-score', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `player_id=${playerId}&points_change=${pointsChange}&territories_change=${territoriesChange}&admin_key=${adminKey}`
+                    body: `player_id=${playerId}&points_change=${pointsChange}&admin_key=${adminKey}` // Removed territories_change
                 });
 
                 if (response.ok) {
@@ -525,7 +522,7 @@
                 loadAdminPlayers(); // Load players only when unlocked
             } else {
                 playerManagementSection.style.display = 'none';
-                scoreAdjustmentSection.style.display = 'none';
+                scoreAdjustmentSection.style.display = 'block'; // Still show this even if key is incorrect for visual
                 adminError.textContent = 'Enter Admin Key.';
                 adminError.style.display = 'block';
             }
@@ -546,7 +543,7 @@
             });
             // Ensure admin sections are hidden initially until key is entered
             playerManagementSection.style.display = 'none';
-            scoreAdjustmentSection.style.display = 'none';
+            scoreAdjustmentSection.style.display = 'none'; // Keep hidden initially
         });
     </script>
 </body>

@@ -291,12 +291,12 @@
                         <th>Faction</th>
                         <th>Warband Name</th>
                         <th>Campaign Points</th>
-                        <th>Territories Held</th>
+                        <!-- Removed: <th>Territories Held</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Leaderboard data will be loaded here by JavaScript -->
-                    <tr><td colspan="6">Loading leaderboard...</td></tr>
+                    <tr><td colspan="5">Loading leaderboard...</td></tr> <!-- Updated colspan to 5 -->
                 </tbody>
             </table>
             <p class="notes">Scores are updated after each game submission. Battle hard, heroes!</p>
@@ -308,8 +308,8 @@
             <div class="battleplan-list">
                 <ul>
                     <li><a href="the_ritual_aos4.html">Battleplan: The Ritual (AoS v4)</a> (Narrative Mission)</li>
-                    <li><a href="race_to_relic.html">Scenario: Race to the Relic</a> (500pt Skirmish)</li>
-                    <li><a href="#">Scenario: [Battleplan Name 3]</a> (Coming Soon)</li>
+                    <li><a href="race_to_relic.html">Scenario: Race to the Relic</a> (500pt Recomended)</li>
+                    <li><a href="#">Battleplan: [Coming Soon]</a></li>
                     <!-- Add more battleplans here -->
                 </ul>
             </div>
@@ -334,7 +334,7 @@
             <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
             <img src="images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
         </div>
-    </<footer>
+    </footer>
 
     <script>
         // JavaScript to load leaderboard data
@@ -345,13 +345,8 @@
                 const response = await fetch('leaderboard.json');
                 const leaderboardData = await response.json();
 
-                // Sort by Campaign Points (descending), then Territories (descending)
-                leaderboardData.sort((a, b) => {
-                    if (b.campaign_points !== a.campaign_points) {
-                        return b.campaign_points - a.campaign_points;
-                    }
-                    return b.territories_held - a.territories_held;
-                });
+                // Sort by Campaign Points (descending)
+                leaderboardData.sort((a, b) => b.campaign_points - a.campaign_points); // Simplified sort
 
                 leaderboardTableBody.innerHTML = ''; // Clear loading message
 
@@ -361,15 +356,15 @@
                         <td>${index + 1}</td>
                         <td>${player.player_name}</td>
                         <td>${player.faction}</td>
-                        <td>${player.warband_name || 'N/A'}</td> <!-- Display Warband Name -->
+                        <td>${player.warband_name || 'N/A'}</td>
                         <td>${player.campaign_points}</td>
-                        <td>${player.territories_held}</td>
+                        <!-- Removed: <td>${player.territories_held}</td> -->
                     `;
                 });
 
             } catch (error) {
                 console.error('Error loading leaderboard:', error);
-                leaderboardTableBody.innerHTML = '<tr><td colspan="6">Error loading leaderboard. Please try again later.</td></tr>'; // Updated colspan
+                leaderboardTableBody.innerHTML = '<tr><td colspan="5">Error loading leaderboard. Please try again later.</td></tr>'; // Updated colspan to 5
             }
         });
     </script>
