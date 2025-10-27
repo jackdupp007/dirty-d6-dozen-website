@@ -10,5 +10,11 @@
     "name": "Bob",
     "faction": "Beastclaw Raiders",
     "warband_name": "Coldies"
+  },
+  {
+    "id": "bill21799",
+    "name": "Bill",
+    "faction": "Ironjawz",
+    "warband_name": "Longteef"
   }
 ]
