@@ -22,5 +22,13 @@
     "warband_name": "Short Floaters",
     "campaign_points": 0,
     "territories_held": 0
+  },
+  {
+    "player_id": "aiden45602",
+    "player_name": "Aiden",
+    "faction": "Ossiarch Bonereapers",
+    "warband_name": "The Unfed",
+    "campaign_points": 0,
+    "territories_held": 0
   }
 ]
