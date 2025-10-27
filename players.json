@@ -28,5 +28,11 @@
     "name": "Aiden",
     "faction": "Ossiarch Bonereapers",
     "warband_name": "The Unfed"
+  },
+  {
+    "id": "bob34245",
+    "name": "Bob",
+    "faction": "Nighthaunt",
+    "warband_name": "Float Legs"
   }
 ]
