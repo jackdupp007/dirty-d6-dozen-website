@@ -1,6 +1,46 @@
 // netlify/functions/delete-player.js
+
 const { Octokit } = require('@octokit/rest');
 const fetch = require('node-fetch');
+
+// Helper function to get file content from GitHub (TOP-LEVEL DEFINITION)
+async function getFileContent(octokitInstance, owner, repo, path, branch = 'main') {
+  try {
+    const { data } = await octokitInstance.repos.getContent({
+      owner,
+      repo,
+      path,
+      branch,
+    });
+    return {
+      content: Buffer.from(data.content, 'base64').toString('utf8'),
+      sha: data.sha,
+    };
+  } catch (error) {
+    console.error(`Error getting file ${path} from GitHub:`, error.message);
+    throw new Error(`Failed to retrieve ${path} from GitHub. (Error: ${error.message})`); // Throw for main handler to catch
+  }
+}
+
+// Helper function to update file content on GitHub (TOP-LEVEL DEFINITION)
+async function updateFileContent(octokitInstance, owner, repo, path, content, message, branch = 'main', sha) {
+  try {
+    await octokitInstance.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path,
+      message,
+      content: Buffer.from(content).toString('base64'),
+      sha,
+      branch,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error(`Error updating file ${path} on GitHub:`, error.message);
+    throw new Error(`Failed to update ${path} on GitHub. (Error: ${error.message})`); // Throw for main handler to catch
+  }
+}
+
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -17,7 +57,8 @@ exports.handler = async (event) => {
   const githubBranch = 'main';
   const playersJsonPath = 'players.json';
   const leaderboardJsonPath = 'leaderboard.json';
-  const adminActionBuildHookUrl = 'https://api.netlify.com/build_hooks/68ff172f6eae16f13be0652e'; // !!! NEW BUILD HOOK HERE !!!
+  // You need to replace 'YOUR_NETLIFY_ADMIN_ACTION_BUILD_HOOK_URL' with the URL you created for admin actions
+  const adminActionBuildHookUrl = 'https://api.netlify.com/build_hooks/68ff172f6eae16f13be0652e'; 
 
   // Check Admin Key
   if (adminKey !== process.env.ADMIN_KEY) {
@@ -33,7 +74,6 @@ exports.handler = async (event) => {
   try {
     // 1. Fetch current players.json
     const playersFile = await getFileContent(octokit, githubRepoOwner, githubRepoName, playersJsonPath, githubBranch);
-    if (playersFile.error) return { statusCode: playersFile.statusCode, body: JSON.stringify({ message: playersFile.message, githubError: playersFile.githubError }) };
     let players = JSON.parse(playersFile.content);
     const playersSha = playersFile.sha;
 
@@ -42,22 +82,20 @@ exports.handler = async (event) => {
 
     // Remove player from players.json
     const updatedPlayers = players.filter(p => p.id !== playerIdToDelete);
-    if (updatedPlayers.length === players.length) {
+    if (updatedPlayers.length === players.length) { // If length is same, player wasn't found
         return { statusCode: 404, body: JSON.stringify({ message: `Player with ID ${playerIdToDelete} not found in players.json.` }) };
     }
 
     // 2. Update players.json on GitHub
-    const playersUpdateResult = await updateFileContent(
+    await updateFileContent(
       octokit, githubRepoOwner, githubRepoName, playersJsonPath,
       JSON.stringify(updatedPlayers, null, 2),
       `Automated: Remove player ${playerToDeleteName} from players.json`, githubBranch, playersSha
     );
-    if (playersUpdateResult.error) return { statusCode: playersUpdateResult.statusCode, body: JSON.stringify({ message: playersUpdateResult.message, githubError: playersUpdateResult.githubError }) };
 
 
     // 3. Fetch current leaderboard.json
     const leaderboardFile = await getFileContent(octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath, githubBranch);
-    if (leaderboardFile.error) return { statusCode: leaderboardFile.statusCode, body: JSON.stringify({ message: leaderboardFile.message, githubError: leaderboardFile.githubError }) };
     let leaderboard = JSON.parse(leaderboardFile.content);
     const leaderboardSha = leaderboardFile.sha;
 
@@ -65,12 +103,11 @@ exports.handler = async (event) => {
     const updatedLeaderboard = leaderboard.filter(p => p.player_id !== playerIdToDelete);
 
     // 4. Update leaderboard.json on GitHub
-    const leaderboardUpdateResult = await updateFileContent(
+    await updateFileContent(
         octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath,
         JSON.stringify(updatedLeaderboard, null, 2),
         `Automated: Remove player ${playerToDeleteName} from leaderboard.json`, githubBranch, leaderboardSha
     );
-    if (leaderboardUpdateResult.error) return { statusCode: leaderboardUpdateResult.statusCode, body: JSON.stringify({ message: leaderboardUpdateResult.message, githubError: leaderboardUpdateResult.githubError }) };
 
     // 5. Trigger Netlify build hook
     const buildHookResponse = await fetch(adminActionBuildHookUrl, { method: 'POST' });
@@ -85,21 +122,10 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
-    console.error('Netlify function global catch error:', error);
+    console.error('Netlify function global catch error (delete-player):', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'An unexpected error occurred during player deletion.', error: error.message, stack: error.stack }),
     };
   }
 };
-
-// Helper functions (getFileContent, updateFileContent) - copy from register-player.js or update-leaderboard.js
-// Ensure these helper functions are also present or imported correctly for this function
-// If you are putting them at the top level of the file as before, use 'const'
-// For this structure, they are defined inside the exports.handler scope.
-
-// NOTE: For brevity, the helper functions are duplicated above.
-// In a real project, you might put these into a shared utils file:
-// `netlify/functions/utils/github.js` and `require('./utils/github.js')`
-// But for simplicity of single-file functions, this inline approach works.
-// Just make sure they are exactly as above within this file.

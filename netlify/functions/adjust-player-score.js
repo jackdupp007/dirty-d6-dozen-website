@@ -1,6 +1,46 @@
 // netlify/functions/adjust-player-score.js
+
 const { Octokit } = require('@octokit/rest');
 const fetch = require('node-fetch');
+
+// Helper function to get file content from GitHub (TOP-LEVEL DEFINITION)
+async function getFileContent(octokitInstance, owner, repo, path, branch = 'main') {
+  try {
+    const { data } = await octokitInstance.repos.getContent({
+      owner,
+      repo,
+      path,
+      branch,
+    });
+    return {
+      content: Buffer.from(data.content, 'base64').toString('utf8'),
+      sha: data.sha,
+    };
+  } catch (error) {
+    console.error(`Error getting file ${path} from GitHub:`, error.message);
+    throw new Error(`Failed to retrieve ${path} from GitHub. (Error: ${error.message})`); // Throw for main handler to catch
+  }
+}
+
+// Helper function to update file content on GitHub (TOP-LEVEL DEFINITION)
+async function updateFileContent(octokitInstance, owner, repo, path, content, message, branch = 'main', sha) {
+  try {
+    await octokitInstance.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path,
+      message,
+      content: Buffer.from(content).toString('base64'),
+      sha,
+      branch,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error(`Error updating file ${path} on GitHub:`, error.message);
+    throw new Error(`Failed to update ${path} on GitHub. (Error: ${error.message})`); // Throw for main handler to catch
+  }
+}
+
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -18,7 +58,8 @@ exports.handler = async (event) => {
   const githubRepoName = 'dirty-d6-dozen-website'; // <<< YOUR REPOSITORY NAME
   const githubBranch = 'main';
   const leaderboardJsonPath = 'leaderboard.json';
-  const adminActionBuildHookUrl = 'https://api.netlify.com/build_hooks/68ff172f6eae16f13be0652e'; // !!! NEW BUILD HOOK HERE !!!
+  // You need to replace 'YOUR_NETLIFY_ADMIN_ACTION_BUILD_HOOK_URL' with the URL you created for admin actions
+  const adminActionBuildHookUrl = 'https://api.netlify.com/build_hooks/68ff172f6eae16f13be0652e'; 
 
   // Check Admin Key
   if (adminKey !== process.env.ADMIN_KEY) {
@@ -34,7 +75,6 @@ exports.handler = async (event) => {
   try {
     // 1. Fetch current leaderboard.json
     const leaderboardFile = await getFileContent(octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath, githubBranch);
-    if (leaderboardFile.error) return { statusCode: leaderboardFile.statusCode, body: JSON.stringify({ message: leaderboardFile.message, githubError: leaderboardFile.githubError }) };
     let leaderboard = JSON.parse(leaderboardFile.content);
     const leaderboardSha = leaderboardFile.sha;
 
@@ -51,13 +91,12 @@ exports.handler = async (event) => {
     leaderboard.sort((a, b) => b.campaign_points - a.campaign_points);
 
     // 2. Push updated leaderboard.json back to GitHub
-    const updateResult = await updateFileContent(
+    await updateFileContent(
       octokit, githubRepoOwner, githubRepoName, leaderboardJsonPath,
       JSON.stringify(leaderboard, null, 2),
       `Automated: Adjust score for ${leaderboard[playerIndex].player_name} (Points: ${pointsChange}, Territories: ${territoriesChange})`,
       githubBranch, leaderboardSha
     );
-    if (updateResult.error) return { statusCode: updateResult.statusCode, body: JSON.stringify({ message: updateResult.message, githubError: updateResult.githubError }) };
 
     // 3. Trigger Netlify build hook
     const buildHookResponse = await fetch(adminActionBuildHookUrl, { method: 'POST' });
@@ -72,14 +111,10 @@ exports.handler = async (event) => {
     };
 
   } catch (error) {
-    console.error('Netlify function global catch error:', error);
+    console.error('Netlify function global catch error (adjust-player-score):', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'An unexpected error occurred during score adjustment.', error: error.message, stack: error.stack }),
     };
   }
 };
-
-// Helper functions (getFileContent, updateFileContent) - copy from register-player.js or update-leaderboard.js
-// Ensure these helper functions are also present or imported correctly for this function
-// For this structure, they are defined inside the exports.handler scope.
