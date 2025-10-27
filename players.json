@@ -1,14 +1,16 @@
 [
   {
-    "id": "player2",
-    "name": "Ace",
-    "faction": "Kharadron Overlords",
-    "warband_name": "Short Floaters"
+    "player_id": "adamcohan34023",
+    "player_name": "Adam Cohan",
+    "faction": "Gloomspite Gitz",
+    "warband_name": "Squid Smokers",
+    "campaign_points": 8
   },
   {
-    "id": "adamcohan34023",
-    "name": "Adam Cohan",
-    "faction": "Gloomspite Gitz",
-    "warband_name": "Squid Smokers"
+    "player_id": "player2",
+    "player_name": "Ace",
+    "faction": "Kharadron Overlords",
+    "warband_name": "Short Floaters",
+    "campaign_points": 0
   }
 ]
