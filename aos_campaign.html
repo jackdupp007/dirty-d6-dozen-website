@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Age of Sigmar: Warband Wars - The Dirty d6 Dozen</title>
     <!-- Favicon Link -->
-    <link rel="icon" href="https://jnbprozkciguaqlmsdgq.supabase.co/storage/v1/object/public/prod.ephemeral.user.uploads/nr9n5n6byampbc4im8bxyp.png" type="image/png">
+    <link rel="icon" href="images/Invert_Small_Logo.png" type="image/png">
 
     <!-- Link to the same Google Fonts for consistency -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
             --font-display: 'Quantico', sans-serif;
         }
 
-                /* NEW: CSS to hide the honeypot field */
+        /* NEW: CSS to hide the honeypot field */
         .hidden {
             display: none;
         }
@@ -203,6 +203,19 @@
             text-decoration: underline;
         }
 
+        .admin-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        .admin-link a {
+            color: var(--link-color);
+            text-decoration: underline;
+        }
+        .admin-link a:hover {
+            color: var(--link-hover-color);
+        }
+
 
         footer {
             background-color: #0d0d0d;
@@ -220,7 +233,7 @@
             opacity: 0.8;
         }
         
-        /* Responsive Adjustments (copied from index.html for consistency) */
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
             nav ul li {
                 display: block;
@@ -276,13 +289,14 @@
                         <th>Rank</th>
                         <th>Player Name</th>
                         <th>Faction</th>
+                        <th>Warband Name</th>
                         <th>Campaign Points</th>
                         <th>Territories Held</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Leaderboard data will be loaded here by JavaScript -->
-                    <tr><td colspan="5">Loading leaderboard...</td></tr> 
+                    <tr><td colspan="6">Loading leaderboard...</td></tr>
                 </tbody>
             </table>
             <p class="notes">Scores are updated after each game submission. Battle hard, heroes!</p>
@@ -293,8 +307,8 @@
             <p>Choose your battlefield, commander! These are the approved battleplans for the Warband Wars campaign. Each offers unique challenges and opportunities for glory.</p>
             <div class="battleplan-list">
                 <ul>
+                    <li><a href="the_ritual_aos4.html">Battleplan: The Ritual (AoS v4)</a> (Narrative Mission)</li>
                     <li><a href="race_to_relic.html">Scenario: Race to the Relic</a> (500pt Skirmish)</li>
-                    <li><a href="#">Scenario: [Battleplan Name 2]</a> (Coming Soon)</li>
                     <li><a href="#">Scenario: [Battleplan Name 3]</a> (Coming Soon)</li>
                     <!-- Add more battleplans here -->
                 </ul>
@@ -305,13 +319,13 @@
         <div class="call-to-action">
             <a href="registration.html" class="cta-button">Register for Warband Wars!</a>
         </div>
-
-        <div class="call-to-action">
-            <a href="submit_game.html" class="cta-button">Submit Game Results</a>
-        </div>
-
+        
         <div class="call-to-action">
             <a href="events_campaigns.html" class="cta-button">Return to Events & Campaigns</a>
+        </div>
+        
+        <div class="admin-link">
+            <a href="admin.html">Campaign Admin Panel (Authorized Users Only)</a>
         </div>
     </main>
 
@@ -320,7 +334,7 @@
             <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
             <img src="images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
         </div>
-    </footer>
+    </<footer>
 
     <script>
         // JavaScript to load leaderboard data
@@ -347,6 +361,7 @@
                         <td>${index + 1}</td>
                         <td>${player.player_name}</td>
                         <td>${player.faction}</td>
+                        <td>${player.warband_name || 'N/A'}</td> <!-- Display Warband Name -->
                         <td>${player.campaign_points}</td>
                         <td>${player.territories_held}</td>
                     `;
@@ -354,7 +369,7 @@
 
             } catch (error) {
                 console.error('Error loading leaderboard:', error);
-                leaderboardTableBody.innerHTML = '<tr><td colspan="5">Error loading leaderboard. Please try again later.</td></tr>';
+                leaderboardTableBody.innerHTML = '<tr><td colspan="6">Error loading leaderboard. Please try again later.</td></tr>'; // Updated colspan
             }
         });
     </script>

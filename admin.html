@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campaign Admin Panel - The Dirty d6 Dozen</title>
+    <!-- Favicon Link -->
+    <link rel="icon" href="images/Invert_Small_Logo.png" type="image/png">
+    
+    <!-- Link to the same Google Fonts for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Re-using the same CSS variables for consistent theme */
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --link-color: #A0A0A0;
+            --link-hover-color: #FFFFFF;
+            --accent-color: #D3D3D3;
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif;
+            --block-bg-color: #1a1a1a;
+            --input-bg-color: #3f3f3f;
+            --button-primary: #008CBA;
+            --button-primary-hover: #007bb5;
+            --button-danger: #b91c1c; /* Red for delete actions */
+            --button-danger-hover: #9f1616;
+            --button-action: #4ade80; /* Green for update actions */
+            --button-action-hover: #22c55e;
+        }
+
+        /* NEW: CSS to hide the honeypot field */
+        .hidden {
+            display: none;
+        }
+
+        /* All general styling from index.html is applied here for consistency */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: var(--block-bg-color);
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--button-primary);
+            color: var(--text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .cta-button:hover {
+            background-color: var(--button-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .admin-controls {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(211, 211, 211, 0.2);
+        }
+
+        .admin-controls h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--link-hover-color);
+        }
+
+        .admin-player-list {
+            list-style: none;
+            padding: 0;
+        }
+        .admin-player-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a2a2a;
+            border: 1px solid var(--accent-color);
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+        .admin-player-list li span {
+            flex-grow: 1;
+            padding-right: 10px;
+        }
+        .admin-player-list li .button-group {
+            display: flex;
+            gap: 5px;
+        }
+        .admin-player-list li .button-group button {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: var(--font-main);
+            font-size: 0.85em;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+        .admin-player-list li .button-group .delete-button {
+            background-color: var(--button-danger);
+            color: white;
+        }
+        .admin-player-list li .button-group .delete-button:hover {
+            background-color: var(--button-danger-hover);
+        }
+        .admin-player-list li .button-group .adjust-button {
+            background-color: var(--button-action);
+            color: black; /* Changed to black for contrast on green */
+        }
+        .admin-player-list li .button-group .adjust-button:hover {
+            background-color: var(--button-action-hover);
+        }
+        .admin-key-input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            background-color: var(--input-bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 0.9em;
+        }
+
+
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            .cta-button { font-size: 1em; padding: 12px 25px; }
+            .admin-player-list li { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .admin-player-list li .button-group { width: 100%; justify-content: flex-end; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+            .admin-player-list li .button-group { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#games">Games We Play</a></li>
+                <li><a href="events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="past_events.html">Past Events</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="admin-intro" class="section-block">
+            <h1>Campaign Admin Panel</h1>
+            <h2>Manage Players & Scores</h2>
+            <p>Welcome to the Warband Wars Administration Panel. From here, authorized users can manage the active player roster and adjust campaign scores directly.</p>
+            <p class="muted"><strong>Warning:</strong> Actions taken here are permanent and will trigger a site rebuild.</p>
+            <input type="password" id="adminKeyInput" class="admin-key-input" placeholder="Enter Admin Key to unlock features..." />
+            <p id="adminError" style="color:red; font-size:0.85em; margin-top:10px; display:none;">Incorrect Admin Key.</p>
+        </section>
+
+        <section id="player-management" class="section-block admin-controls" style="display:none;">
+            <h2>Manage Players</h2>
+            <h3>Current Players:</h3>
+            <ul id="adminPlayerList" class="admin-player-list">
+                <!-- Players will be loaded here by JavaScript -->
+                <li>Loading players...</li>
+            </ul>
+        </section>
+
+        <section id="score-adjustment" class="section-block admin-controls" style="display:none;">
+            <h2>Adjust Player Scores</h2>
+            <p class="muted">Select a player and enter the *amount to add or subtract* from their current Campaign Points and Territories Held. Use negative numbers to subtract.</p>
+            <div class="form-group">
+                <label for="adjustPlayerSelect">Player to Adjust:</label>
+                <select id="adjustPlayerSelect" required>
+                    <option value="">-- Select Player --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pointsChange">Campaign Points Change:</label>
+                <input type="number" id="pointsChange" value="0" placeholder="e.g., 10 or -5" />
+            </div>
+            <div class="form-group">
+                <label for="territoriesChange">Territories Held Change:</label>
+                <input type="number" id="territoriesChange" value="0" placeholder="e.g., 1 or -1" />
+            </div>
+            <button class="cta-button" id="adjustScoreButton">Adjust Score</button>
+            <p id="adjustScoreMessage" style="color:var(--link-hover-color); font-size:0.9em; margin-top:10px;"></p>
+        </section>
+
+        <div class="call-to-action">
+            <a href="aos_campaign.html" class="cta-button">Return to Warband Wars Campaign</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+
+    <script>
+        let allPlayers = []; // Global variable to store players for admin panel
+
+        // Function to toggle collapsible sections (reused)
+        function toggleCollapsible(btn){
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+        }
+
+        // --- Admin Panel Logic ---
+        const adminKeyInput = document.getElementById('adminKeyInput');
+        const adminError = document.getElementById('adminError');
+        const playerManagementSection = document.getElementById('player-management');
+        const scoreAdjustmentSection = document.getElementById('score-adjustment');
+        const adminPlayerList = document.getElementById('adminPlayerList');
+        const adjustPlayerSelect = document.getElementById('adjustPlayerSelect');
+        const pointsChangeInput = document.getElementById('pointsChange');
+        const territoriesChangeInput = document.getElementById('territoriesChange');
+        const adjustScoreButton = document.getElementById('adjustScoreButton');
+        const adjustScoreMessage = document.getElementById('adjustScoreMessage');
+
+        // Function to load players into the admin panel and adjustment dropdown
+        async function loadAdminPlayers() {
+            try {
+                const response = await fetch('players.json');
+                allPlayers = await response.json();
+
+                adminPlayerList.innerHTML = ''; // Clear loading message
+                adjustPlayerSelect.innerHTML = '<option value="">-- Select Player --</option>';
+
+                allPlayers.forEach(player => {
+                    // Populate player management list
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span>${player.name} (${player.warband_name || player.faction})</span>
+                        <div class="button-group">
+                            <button class="adjust-button" data-player-id="${player.id}">Adjust Score</button>
+                            <button class="delete-button" data-player-id="${player.id}">Remove Player</button>
+                        </div>
+                    `;
+                    adminPlayerList.appendChild(listItem);
+
+                    // Populate score adjustment dropdown
+                    const option = document.createElement('option');
+                    option.value = player.id;
+                    option.textContent = `${player.name} (${player.warband_name || player.faction})`;
+                    adjustPlayerSelect.appendChild(option);
+                });
+
+                // Add event listeners for dynamically created buttons
+                document.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', (e) => handleDeletePlayer(e.target.dataset.playerId));
+                });
+                document.querySelectorAll('.adjust-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        // For simplicity, clicking adjust next to a player just pre-selects them in the score adjustment form
+                        adjustPlayerSelect.value = e.target.dataset.playerId;
+                        scoreAdjustmentSection.scrollIntoView({ behavior: 'smooth' }); // Scroll to the adjustment form
+                    });
+                });
+
+
+            } catch (error) {
+                console.error('Error loading players for admin:', error);
+                adminPlayerList.innerHTML = '<li>Error loading players.</li>';
+                adjustPlayerSelect.innerHTML = '<option value="">Error loading players.</option>';
+            }
+        }
+
+        // Handle Player Deletion
+        async function handleDeletePlayer(playerId) {
+            const confirmDelete = confirm(`Are you sure you want to permanently remove this player? This cannot be undone.`);
+            if (!confirmDelete) return;
+
+            const adminKey = prompt("Please enter the Admin Key to confirm deletion:");
+            if (!adminKey) return; // User cancelled
+
+            const submitButton = event.target; // Get the button that was clicked
+            submitButton.disabled = true;
+            submitButton.textContent = 'Removing...';
+
+            try {
+                const response = await fetch('/.netlify/functions/delete-player', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `player_id=${playerId}&admin_key=${adminKey}`
+                });
+
+                if (response.ok) {
+                    alert('Player removed and site rebuild triggered!');
+                    window.location.reload(); // Reload page to show updated list
+                } else {
+                    const errorData = await response.json();
+                    alert(`Deletion failed: ${errorData.message || response.statusText}. Check console.`);
+                    console.error('Netlify Function Error:', errorData);
+                }
+            } catch (error) {
+                console.error('Network error during deletion:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Remove Player';
+            }
+        }
+
+        // Handle Score Adjustment
+        adjustScoreButton.addEventListener('click', async () => {
+            const playerId = adjustPlayerSelect.value;
+            const pointsChange = parseInt(pointsChangeInput.value);
+            const territoriesChange = parseInt(territoriesChangeInput.value);
+
+            if (!playerId) {
+                adjustScoreMessage.style.color = 'red';
+                adjustScoreMessage.textContent = 'Please select a player.';
+                return;
+            }
+            if (isNaN(pointsChange) || isNaN(territoriesChange)) {
+                adjustScoreMessage.style.color = 'red';
+                adjustScoreMessage.textContent = 'Points and Territories must be numbers.';
+                return;
+            }
+            if (pointsChange === 0 && territoriesChange === 0) {
+                adjustScoreMessage.style.color = 'orange';
+                adjustScoreMessage.textContent = 'No changes entered.';
+                return;
+            }
+
+            const confirmAdjust = confirm(`Confirm adjustment for ${adjustPlayerSelect.options[adjustPlayerSelect.selectedIndex].text}:\nPoints: ${pointsChange > 0 ? '+' : ''}${pointsChange}\nTerritories: ${territoriesChange > 0 ? '+' : ''}${territoriesChange}`);
+            if (!confirmAdjust) return;
+
+            const adminKey = prompt("Please enter the Admin Key to confirm score adjustment:");
+            if (!adminKey) return; // User cancelled
+
+            adjustScoreButton.disabled = true;
+            adjustScoreButton.textContent = 'Adjusting...';
+
+            try {
+                const response = await fetch('/.netlify/functions/adjust-player-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `player_id=${playerId}&points_change=${pointsChange}&territories_change=${territoriesChange}&admin_key=${adminKey}`
+                });
+
+                if (response.ok) {
+                    alert('Score adjusted and site rebuild triggered!');
+                    window.location.reload(); // Reload page to show updated list
+                } else {
+                    const errorData = await response.json();
+                    adjustScoreMessage.style.color = 'red';
+                    adjustScoreMessage.textContent = `Adjustment failed: ${errorData.message || response.statusText}.`;
+                    console.error('Netlify Function Error:', errorData);
+                }
+            } catch (error) {
+                console.error('Network error during adjustment:', error);
+                adjustScoreMessage.style.color = 'red';
+                adjustScoreMessage.textContent = 'A network error occurred. Please check your connection.';
+            } finally {
+                adjustScoreButton.disabled = false;
+                adjustScoreButton.textContent = 'Adjust Score';
+            }
+        });
+
+        // Admin Key Unlock Logic
+        adminKeyInput.addEventListener('input', () => {
+            const adminKey = adminKeyInput.value;
+            // Note: For real security, this check would happen server-side.
+            // This client-side check is only for UI unlock.
+            if (adminKey && adminKey.length > 5) { // Simple length check as an example
+                // Assume key is 'correct' for UI unlock. Real check is in function.
+                playerManagementSection.style.display = 'block';
+                scoreAdjustmentSection.style.display = 'block';
+                adminError.style.display = 'none';
+                loadAdminPlayers(); // Load players only when unlocked
+            } else {
+                playerManagementSection.style.display = 'none';
+                scoreAdjustmentSection.style.display = 'none';
+                adminError.textContent = 'Enter Admin Key.';
+                adminError.style.display = 'block';
+            }
+        });
+        adminKeyInput.addEventListener('keydown', (e) => {
+            // If the user presses enter, ensure the input event fires for unlock check
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                adminKeyInput.dispatchEvent(new Event('input'));
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial check for collapsible FAQs (if any)
+            document.querySelectorAll('.collapsible').forEach(btn => {
+                btn.addEventListener('click', () => toggleCollapsible(btn));
+            });
+            // Ensure admin sections are hidden initially until key is entered
+            playerManagementSection.style.display = 'none';
+            scoreAdjustmentSection.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
