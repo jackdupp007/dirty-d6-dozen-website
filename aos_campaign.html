@@ -307,9 +307,9 @@
             <p>Choose your battlefield, commander! These are the approved battleplans for the Warband Wars campaign. Each offers unique challenges and opportunities for glory.</p>
             <div class="battleplan-list">
                 <ul>
-                    <li><a href="the_ritual_aos4.html">Battleplan: The Ritual (AoS v4)</a> (Narrative Mission)</li>
-                    <li><a href="race_to_relic.html">Scenario: Race to the Relic</a> (500pt Recomended)</li>
-                    <li><a href="#">Battleplan: [Coming Soon]</a></li>
+                    <li><a href="race_to_relic.html">Battleplan: Race to the Relic</a> (500pt Recommended)</li>
+                    <li><a href="the_ritual_aos4.html">Battleplan: The Ritual </a> (500pt - 1000pt Recommended)</li>
+                    <li><a href="spearhead_custom_battleplan.html">Battleplan: Spearhead or Custom</a> (Flexible Points)</li> <!-- NEW LINK -->
                     <!-- Add more battleplans here -->
                 </ul>
             </div>
@@ -346,7 +346,7 @@
                 const leaderboardData = await response.json();
 
                 // Sort by Campaign Points (descending)
-                leaderboardData.sort((a, b) => b.campaign_points - a.campaign_points); // Simplified sort
+                leaderboardData.sort((a, b) => b.campaign_points - a.campaign_points);
 
                 leaderboardTableBody.innerHTML = ''; // Clear loading message
 
@@ -358,7 +358,6 @@
                         <td>${player.faction}</td>
                         <td>${player.warband_name || 'N/A'}</td>
                         <td>${player.campaign_points}</td>
-                        <!-- Removed: <td>${player.territories_held}</td> -->
                     `;
                 });
 

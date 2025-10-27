@@ -165,10 +165,14 @@
         }
 
         .footer-logo {
-            max-width: 60px;
+            max-width: 60px; /* Small logo size */
             height: auto;
             margin-top: 15px;
-            opacity: 0.8;
+            opacity: 0.8; /* Slightly less prominent */
+            display: block;   /* NEW: Make it a block-level element */
+            margin-left: auto; /* NEW: Auto margin for horizontal centering */
+            margin-right: auto;/* NEW: Auto margin for horizontal centering */
+            /* Or use shorthand: margin: 15px auto 0 auto; if you want to explicitly keep the top margin too */
         }
 
         /* Responsive Adjustments */
