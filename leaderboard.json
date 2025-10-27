@@ -1,13 +1,5 @@
 [
   {
-    "player_id": "player1",
-    "player_name": "Bevan Bond",
-    "faction": "Disciples of Tzeentch",
-    "warband_name": "Finger Pointers",
-    "campaign_points": 18,
-    "territories_held": 0
-  },
-  {
     "player_id": "adamcohan34023",
     "player_name": "Adam Cohan",
     "faction": "Gloomspite Gitz",
