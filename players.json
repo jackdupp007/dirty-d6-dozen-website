@@ -1,5 +1,32 @@
 [
-  { "id": "player1", "name": "Bevan Bond", "faction": "Disciples of Tzeentch", "warband_name": "Finger Pointers" },
-  { "id": "player2", "name": "Ace", "faction": "Kharadron Overlords", "warband_name": "Short Floaters" },
-  { "id": "player_new", "name": "New Player", "faction": "New Faction", "warband_name": "New Warband" }
+  {
+    "id": "player1",
+    "name": "Bevan Bond",
+    "faction": "Disciples of Tzeentch",
+    "warband_name": "Finger Pointers"
+  },
+  {
+    "id": "player2",
+    "name": "Ace",
+    "faction": "Kharadron Overlords",
+    "warband_name": "Short Floaters"
+  },
+  {
+    "id": "player_new",
+    "name": "New Player",
+    "faction": "New Faction",
+    "warband_name": "New Warband"
+  },
+  {
+    "id": "adamcohan34023",
+    "name": "Adam Cohan",
+    "faction": "Gloomspite Gitz",
+    "warband_name": "Squid Smokers"
+  },
+  {
+    "id": "aiden45602",
+    "name": "Aiden",
+    "faction": "Ossiarch Bonereapers",
+    "warband_name": "The Unfed"
+  }
 ]
