@@ -1,24 +1,10 @@
 [
   {
-    "player_id": "player1",
-    "player_name": "Bevan Bond",
-    "faction": "Disciples of Tzeentch",
-    "warband_name": "Finger Pointers",
-    "campaign_points": 18,
-  },
-  {
     "player_id": "adamcohan34023",
     "player_name": "Adam Cohan",
     "faction": "Gloomspite Gitz",
     "warband_name": "Squid Smokers",
     "campaign_points": 8,
-  },
-  {
-    "player_id": "aiden45602",
-    "player_name": "Aiden",
-    "faction": "Ossiarch Bonereapers",
-    "warband_name": "The Unfed",
-    "campaign_points": 5,
   },
   {
     "player_id": "player2",
@@ -27,11 +13,4 @@
     "warband_name": "Short Floaters",
     "campaign_points": 0,
   },
-  {
-    "player_id": "bob34245",
-    "player_name": "Bob",
-    "faction": "Nighthaunt",
-    "warband_name": "Float Legs",
-    "campaign_points": 0,
-  }
 ]
