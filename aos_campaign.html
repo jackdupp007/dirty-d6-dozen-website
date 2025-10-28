@@ -158,18 +158,30 @@
         }
 
         /* Table styling (Leaderboard specific) */
+        .table-responsive { /* NEW: Container for horizontal scroll */
+            overflow-x: auto; /* Enables horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            margin-top: 20px; /* Adjust margin here instead of on table */
+            margin-bottom: 20px; /* Adjust margin here instead of on table */
+            border: 1px solid var(--accent-color); /* Add border to container for visual clarity */
+            border-radius: 8px; /* Match section-block border-radius */
+            background-color: #2a2a2a; /* Match table row background */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            /* Remove direct border from table, it's on the responsive wrapper now */
+            /* Remove margins from table, they're on the responsive wrapper */
             color: var(--text-color);
             font-size: 0.95em;
+            min-width: 600px; /* Ensure table doesn't shrink too much and activates scroll */
         }
         th, td {
             border: 1px solid var(--accent-color);
             padding: 10px;
             text-align: left;
+            white-space: nowrap; /* Prevent text from wrapping inside cells */
         }
         th {
             background-color: #333333;
@@ -231,6 +243,9 @@
             height: auto;
             margin-top: 15px;
             opacity: 0.8;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         /* Responsive Adjustments */
@@ -283,33 +298,35 @@
 
         <section id="campaign-leaderboard" class="section-block">
             <h2>Warband Wars Leaderboard</h2>
-            <table id="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Player Name</th>
-                        <th>Faction</th>
-                        <th>Warband Name</th>
-                        <th>Campaign Points</th>
-                        <!-- Removed: <th>Territories Held</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Leaderboard data will be loaded here by JavaScript -->
-                    <tr><td colspan="5">Loading leaderboard...</td></tr> <!-- Updated colspan to 5 -->
-                </tbody>
-            </table>
-            <p class="notes">Scores are updated after each game submission. Battle hard, heroes!</p>
+            <div class="table-responsive"> <!-- NEW: Wrapper for horizontal scrolling -->
+                <table id="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player Name</th>
+                            <th>Faction</th>
+                            <th>Warband Name</th>
+                            <th>Campaign Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Leaderboard data will be loaded here by JavaScript -->
+                        <tr><td colspan="5">Loading leaderboard...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="notes">Scores are updated after each game submission(this might take a minute). Battle hard, heroes!</p>
         </section>
 
         <section id="campaign-battleplans" class="section-block">
             <h2>Available Battleplans</h2>
-            <p>Choose your battlefield, commander! These are the approved battleplans for the Warband Wars campaign. Each offers unique challenges and opportunities for glory.</p>
+            <p>Choose your battlefield, Warchief! These are the approved battleplans for the Warband Wars campaign. Each offers unique challenges and opportunities for glory.</p>
+            <p>Army list should have a 8 wounds or Less hero as your General. Some Battleplans have VP conditions if General is slain.</p>
             <div class="battleplan-list">
                 <ul>
+                    <li><a href="the_ritual_aos4.html">Battleplan: The Ritual (AoS v4)</a> (Narrative Mission)</li>
                     <li><a href="race_to_relic.html">Battleplan: Race to the Relic</a> (500pt Recommended)</li>
-                    <li><a href="the_ritual_aos4.html">Battleplan: The Ritual </a> (500pt - 1000pt Recommended)</li>
-                    <li><a href="spearhead_custom_battleplan.html">Battleplan: Spearhead or Custom</a> (Flexible Points)</li> <!-- NEW LINK -->
+                    <li><a href="spearhead_custom_battleplan.html">Battleplan: Spearhead or Custom</a> (Flexible Points)</li>
                     <!-- Add more battleplans here -->
                 </ul>
             </div>
@@ -363,7 +380,7 @@
 
             } catch (error) {
                 console.error('Error loading leaderboard:', error);
-                leaderboardTableBody.innerHTML = '<tr><td colspan="5">Error loading leaderboard. Please try again later.</td></tr>'; // Updated colspan to 5
+                leaderboardTableBody.innerHTML = '<tr><td colspan="5">Error loading leaderboard. Please try again later.</td></tr>';
             }
         });
     </script>
