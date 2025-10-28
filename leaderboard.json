@@ -1,16 +1,16 @@
 [
   {
-    "player_id": "bevanbond71695",
-    "player_name": "Bevan Bond",
-    "faction": "Disciples of Tzeentch",
-    "warband_name": "Cryspie Makers",
-    "campaign_points": 29
-  },
-  {
     "player_id": "adamdefunnkcohen69555",
     "player_name": "Adam “Defunnk” Cohen",
     "faction": "Gloomspite Gitz",
     "warband_name": "Squigallanche",
     "campaign_points": 18
+  },
+  {
+    "player_id": "bevanbond71695",
+    "player_name": "Bevan Bond",
+    "faction": "Disciples of Tzeentch",
+    "warband_name": "Cryspie Makers",
+    "campaign_points": 0
   }
 ]
