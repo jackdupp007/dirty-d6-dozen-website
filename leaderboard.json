@@ -1,23 +1,23 @@
 [
   {
+    "player_id": "ayden87778",
+    "player_name": "Ayden",
+    "faction": "Ossiarch Bonereapers",
+    "warband_name": "Bone Brigade",
+    "campaign_points": 50
+  },
+  {
     "player_id": "adamdefunnkcohen69555",
     "player_name": "Adam “Defunnk” Cohen",
     "faction": "Gloomspite Gitz",
     "warband_name": "Squigallanche",
-    "campaign_points": 0
+    "campaign_points": 40
   },
   {
     "player_id": "bevanbond71695",
     "player_name": "Bevan Bond",
     "faction": "Disciples of Tzeentch",
     "warband_name": "Cryspie Makers",
-    "campaign_points": 0
-  },
-  {
-    "player_id": "ayden87778",
-    "player_name": "Ayden",
-    "faction": "Ossiarch Bonereapers",
-    "warband_name": "Bone Brigade",
     "campaign_points": 0
   }
 ]
