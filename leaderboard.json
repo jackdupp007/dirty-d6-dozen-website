@@ -1,5 +1,12 @@
 [
   {
+    "player_id": "bevanbond71695",
+    "player_name": "Bevan Bond",
+    "faction": "Disciples of Tzeentch",
+    "warband_name": "Cryspie Makers",
+    "campaign_points": 60
+  },
+  {
     "player_id": "ayden87778",
     "player_name": "Ayden",
     "faction": "Ossiarch Bonereapers",
@@ -12,12 +19,5 @@
     "faction": "Gloomspite Gitz",
     "warband_name": "Squigallanche",
     "campaign_points": 40
-  },
-  {
-    "player_id": "bevanbond71695",
-    "player_name": "Bevan Bond",
-    "faction": "Disciples of Tzeentch",
-    "warband_name": "Cryspie Makers",
-    "campaign_points": 0
   }
 ]
