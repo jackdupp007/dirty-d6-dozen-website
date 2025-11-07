@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Game Results - Warband Wars</title>
+    <!-- Favicon Link -->
+    <link rel="icon" href="../../images/Invert_Small_Logo.png" type="image/png">
+    
+    <!-- Link to the same Google Fonts for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Re-using the same CSS variables for consistent theme */
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --link-color: #A0A0A0;
+            --link-hover-color: #FFFFFF;
+            --accent-color: #D3D3D3;
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif;
+        }
+
+        /* CSS to hide the honeypot field */
+        .hidden {
+            display: none;
+        }
+
+        /* All general styling from index.html is applied here for consistency */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: #1a1a1a;
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #008CBA;
+            color: var(--text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .cta-button:hover {
+            background-color: #007bb5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .return-link {
+            color: var(--link-color);
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        .return-link:hover {
+            color: var(--link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Form Styling */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--text-color);
+            font-family: var(--font-display);
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea,
+        .form-group p.display-value { /* Style for displayed game summary text */
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            background-color: #3f3f3f; /* Lighter dark for inputs/display */
+            color: var(--text-color); /* White text */
+            font-family: var(--font-main);
+            font-size: 0.9em;
+            margin-top: 5px; /* Spacing below label */
+            box-sizing: border-box; /* Include padding in width */
+            line-height: 1.4;
+        }
+        .form-group select {
+            width: 100%;
+        }
+        .form-group input[type="submit"] {
+            display: block;
+            width: 100%;
+            background-color: #008CBA;
+            color: var(--text-color);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-family: var(--font-display);
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #007bb5;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            .cta-button { font-size: 1em; padding: 12px 25px; }
+            form { padding: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+            .form-group input[type="text"],
+            .form-group input[type="number"],
+            .form-group select,
+            .form-group textarea,
+            .form-group p.display-value { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="../../images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../index.html#about">About Us</a></li>
+                <li><a href="../../index.html#games">Games We Play</a></li>
+                <li><a href="../../events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="../../past_events.html">Past Events</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="submit-game-intro" class="section-block">
+            <h1>Submit Your Battle Report!</h1>
+            <h2>Age of Sigmar: Warband Wars</h2>
+            <p>Ready to log your game results in the Warband Wars? Use the form below to submit your scores. Your submission will directly update the campaign's leaderboard!</p>
+            <p class="muted">Please ensure details are accurate. Once submitted, changes are permanent.</p>
+        </section>
+
+        <section id="game-submission-form" class="section-block">
+            <form name="game-submission" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/.netlify/functions/update-leaderboard" onsubmit="handleGameSubmission(event)">
+                <input type="hidden" name="form-name" value="game-submission" />
+                <p class="hidden">
+                    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+                </p>
+
+                <!-- Hidden fields for comprehensive game data -->
+                <input type="hidden" id="submission_player1_id" name="player1_id">
+                <input type="hidden" id="submission_player1_name" name="player1_name">
+                <input type="hidden" id="submission_player1_score" name="player1_score">
+                <input type="hidden" id="submission_player1_faction" name="player1_faction">
+                <input type="hidden" id="submission_player1_warband" name="player1_warband">
+                
+                <input type="hidden" id="submission_player2_id" name="player2_id">
+                <input type="hidden" id="submission_player2_name" name="player2_name">
+                <input type="hidden" id="submission_player2_score" name="player2_score">
+                <input type="hidden" id="submission_player2_faction" name="player2_faction">
+                <input type="hidden" id="submission_player2_warband" name="player2_warband">
+
+                <input type="hidden" id="submission_battleplan_name" name="battleplan_name">
+                <input type="hidden" id="submission_total_rounds" name="total_rounds">
+                <input type="hidden" id="submission_game_date" name="game_date"> <!-- NEW -->
+                <input type="hidden" id="submission_round_history" name="round_history"> <!-- NEW (JSON string) -->
+
+                <!-- Display fields for user to review/add notes -->
+                <div class="form-group">
+                    <label>Game Summary:</label>
+                    <p class="display-value">
+                        <strong>Battleplan:</strong> <span id="display_battleplan_name"></span><br>
+                        <strong>Date:</strong> <span id="display_game_date"></span><br> <!-- NEW -->
+                        <strong>Rounds Played:</strong> <span id="display_total_rounds"></span>
+                    </p>
+                    <p class="display-value" style="margin-top: 10px;">
+                        <strong>Player 1:</strong> <span id="display_player1_name"></span> (<span id="display_player1_faction"></span> - <span id="display_player1_warband"></span>) scored <span id="display_player1_score"></span> points.<br>
+                        <strong>Player 2:</strong> <span id="display_player2_name"></span> (<span id="display_player2_faction"></span> - <span id="display_player2_warband"></span>) scored <span id="display_player2_score"></span> points.<br>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="game_notes">Game Notes (optional):</label>
+                    <textarea id="game_notes" name="game_notes" rows="4" placeholder="Any memorable moments, key plays, or special circumstances?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Confirm & Submit Report">
+                </div>
+            </form>
+        </section>
+
+        <div class="call-to-action">
+            <a href="campaigns/warband-wars/aos_campaign.html" class="cta-button">Return to Warband Wars Campaign</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="../../images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const submissionDataJSON = sessionStorage.getItem('gameSubmissionData');
+        const form = document.forms['game-submission'];
+        const submitButton = form.querySelector('input[type="submit"]');
+        const gameNotesInput = document.getElementById('game_notes'); // Get the notes textarea
+
+        if (submissionDataJSON) {
+            const submissionData = JSON.parse(submissionDataJSON);
+
+            // --- Populate Hidden Form Fields ---
+            document.getElementById('submission_player1_id').value = submissionData.player1_id;
+            document.getElementById('submission_player1_name').value = submissionData.player1_name;
+            document.getElementById('submission_player1_score').value = submissionData.player1_score;
+            document.getElementById('submission_player1_faction').value = submissionData.player1_faction;
+            document.getElementById('submission_player1_warband').value = submissionData.player1_warband;
+            
+            document.getElementById('submission_player2_id').value = submissionData.player2_id;
+            document.getElementById('submission_player2_name').value = submissionData.player2_name;
+            document.getElementById('submission_player2_score').value = submissionData.player2_score;
+            document.getElementById('submission_player2_faction').value = submissionData.player2_faction;
+            document.getElementById('submission_player2_warband').value = submissionData.player2_warband;
+
+            document.getElementById('submission_battleplan_name').value = submissionData.battleplan_name;
+            document.getElementById('submission_total_rounds').value = submissionData.total_rounds;
+            document.getElementById('submission_game_date').value = submissionData.game_date; // NEW
+            document.getElementById('submission_round_history').value = JSON.stringify(submissionData.round_history); // NEW (store as JSON string)
+
+            // --- Populate Display Fields for User Review ---
+            document.getElementById('display_player1_name').textContent = submissionData.player1_name;
+            document.getElementById('display_player1_score').textContent = submissionData.player1_score;
+            document.getElementById('display_player1_faction').textContent = submissionData.player1_faction;
+            document.getElementById('display_player1_warband').textContent = submissionData.player1_warband;
+
+            document.getElementById('display_player2_name').textContent = submissionData.player2_name;
+            document.getElementById('display_player2_score').textContent = submissionData.player2_score;
+            document.getElementById('display_player2_faction').textContent = submissionData.player2_faction;
+            document.getElementById('display_player2_warband').textContent = submissionData.player2_warband;
+
+            document.getElementById('display_battleplan_name').textContent = submissionData.battleplan_name;
+            document.getElementById('display_total_rounds').textContent = submissionData.total_rounds;
+            document.getElementById('display_game_date').textContent = submissionData.game_date; // NEW
+
+            // Optional: Populate game notes if stored (though typically new for submission)
+            gameNotesInput.value = submissionData.game_notes || '';
+
+        } else {
+            // If direct access or no data from scenario page
+            alert('No game data found. Please start a game from the battleplan page.');
+            form.innerHTML = '<p style="text-align: center;">No game data to submit. Please return to the battleplan page to start a game.</p>';
+            submitButton.disabled = true;
+        }
+    });
+
+    async function handleGameSubmission(event) {
+        event.preventDefault(); // Prevent default browser submission
+
+        const form = event.target;
+        const submitButton = form.querySelector('input[type="submit"]');
+
+        submitButton.value = 'Submitting...';
+        submitButton.disabled = true;
+
+        const formData = new FormData(form);
+        const body = new URLSearchParams(formData).toString();
+
+        try {
+            // This fetches your Netlify Function!
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body
+            });
+
+            if (response.ok) {
+                // Clear sessionStorage to prevent resubmission if user navigates back
+                sessionStorage.removeItem('gameSubmissionData'); 
+                window.location.href = '/thank-you'; // Use the friendly URL
+            } else {
+                // Handle errors from the Netlify Function
+                const errorData = await response.json(); // Assuming function returns JSON error
+                alert(`Submission failed: ${errorData.message || response.statusText}. Check console for details.`);
+                console.error('Netlify Function Error:', errorData);
+                submitButton.value = 'Confirm & Submit Report';
+                submitButton.disabled = false;
+            }
+        } catch (error) {
+            console.error('Network error during submission:', error);
+            alert('A network error occurred. Please check your connection and try again.');
+            submitButton.value = 'Confirm & Submit Report';
+            submitButton.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>

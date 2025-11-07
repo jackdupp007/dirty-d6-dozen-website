@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game History - Warband Wars</title>
+    <!-- Favicon Link -->
+    <link rel="icon" href="../../images/Invert_Small_Logo.png" type="image/png">
+    
+    <!-- Link to the same Google Fonts for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Re-using the same CSS variables for consistent theme */
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --link-color: #A0A0A0;
+            --link-hover-color: #FFFFFF;
+            --accent-color: #D3D3D3;
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif;
+            --block-bg-color: #1a1a1a;
+            --table-header-bg: #333333;
+            --table-row-even: #222222;
+            --table-row-odd: #2a2a2a;
+            --button-primary: #008CBA;
+            --button-primary-hover: #007bb5;
+        }
+
+        /* All general styling from index.html is applied here for consistency */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: var(--block-bg-color);
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--button-primary);
+            color: var(--text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .cta-button:hover {
+            background-color: var(--button-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        /* Table styling */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            background-color: var(--block-bg-color);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-color);
+            font-size: 0.95em;
+            min-width: 800px; /* Ensure table doesn't shrink too much */
+        }
+        th, td {
+            border: 1px solid var(--accent-color);
+            padding: 10px;
+            text-align: left;
+            white-space: nowrap; /* Prevent text from wrapping inside cells */
+        }
+        th {
+            background-color: var(--table-header-bg);
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        tr:nth-child(even) {
+            background-color: var(--table-row-even);
+        }
+        tr:nth-child(odd) {
+            background-color: var(--table-row-odd);
+        }
+        .round-history-toggle {
+            background: none;
+            border: none;
+            color: var(--link-hover-color);
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: underline;
+            padding: 0;
+            font-family: var(--font-main);
+        }
+        .round-history-content {
+            display: none; /* Hidden by default */
+            font-size: 0.85em;
+            margin-top: 5px;
+            padding-left: 10px;
+            border-left: 2px solid var(--accent-color);
+            white-space: normal; /* Allow wrap for history */
+        }
+
+
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            .cta-button { font-size: 1em; padding: 12px 25px; }
+            table { min-width: 600px; } /* Adjust minimum width for smaller screens */
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+            table { min-width: unset; } /* Allow table to shrink more on very small screens */
+            th, td { padding: 8px; font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="../../images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../index.html#about">About Us</a></li>
+                <li><a href="../../index.html#games">Games We Play</a></li>
+                <li><a href="../../events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="../../past_events.html">Past Events</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="game-history-intro" class="section-block">
+            <h1>Warband Wars Game History</h1>
+            <h2>Archives of All Recorded Battles</h2>
+            <p>Here lies the complete chronicle of every battle fought in the Age of Sigmar: Warband Wars campaign. Review past clashes, analyze strategies, and celebrate the victories!</p>
+            <p class="muted">Results are updated after each game submission (this might take a minute).</p>
+        </section>
+
+        <section id="game-results-table-section" class="section-block">
+            <h2>Game Results</h2>
+            <div class="table-responsive">
+                <table id="gameResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Battleplan</th>
+                            <th>Player 1 (Faction/Warband)</th>
+                            <th>Score</th>
+                            <th>Player 2 (Faction/Warband)</th>
+                            <th>Score</th>
+                            <th>Winner</th>
+                            <th>Rounds</th>
+                            <th>Notes</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Game data will be loaded here by JavaScript -->
+                        <tr><td colspan="10">Loading game history...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="call-to-action">
+            <a href="aos_campaign.html" class="cta-button">Return to Warband Wars Campaign</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="../../images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const gameResultsTableBody = document.querySelector('#gameResultsTable tbody');
+            
+            try {
+                const response = await fetch('../../data/game_results.json');
+                const gameHistory = await response.json();
+
+                // Sort by date (newest first)
+                gameHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                gameResultsTableBody.innerHTML = ''; // Clear loading message
+
+                if (gameHistory.length === 0) {
+                    gameResultsTableBody.innerHTML = '<tr><td colspan="10">No game results found yet. Be the first to submit a battle report!</td></tr>';
+                    return;
+                }
+
+                gameHistory.forEach((game, index) => {
+                    const winnerName = game.player1.score > game.player2.score 
+                                        ? game.player1.name 
+                                        : (game.player2.score > game.player1.score 
+                                            ? game.player2.name 
+                                            : 'Tie');
+
+                    const row = gameResultsTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${game.date}</td>
+                        <td>${game.battleplan}</td>
+                        <td>${game.player1.name} (${game.player1.faction}/${game.player1.warband})</td>
+                        <td>${game.player1.score}</td>
+                        <td>${game.player2.name} (${game.player2.faction}/${game.player2.warband})</td>
+                        <td>${game.player2.score}</td>
+                        <td>${winnerName}</td>
+                        <td>${game.total_rounds}</td>
+                        <td>${game.notes || 'N/A'}</td>
+                        <td>
+                            <button class="round-history-toggle" data-game-id="game-${index}">Show Rounds</button>
+                            <div id="game-${index}" class="round-history-content">
+                                ${game.round_history.map(rh => `
+                                    <strong>Round ${rh.round}:</strong>
+                                    <br> &nbsp; ${game.player1.name}: ${rh.player1Score_end} VP (${rh.player1CP_end} CP)
+                                    <br> &nbsp; ${game.player2.name}: ${rh.player2Score_end} VP (${rh.player2CP_end} CP)
+                                    <br> &nbsp; (Went First: ${rh.wentFirst === game.player1.id ? game.player1.name : game.player2.name})
+                                    <br>
+                                `).join('')}
+                            </div>
+                        </td>
+                    `;
+                });
+
+                // Add event listeners for toggling round history details
+                document.querySelectorAll('.round-history-toggle').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const targetId = event.target.dataset.gameId;
+                        const contentDiv = document.getElementById(targetId);
+                        if (contentDiv.style.display === 'none' || contentDiv.style.display === '') {
+                            contentDiv.style.display = 'block';
+                            event.target.textContent = 'Hide Rounds';
+                        } else {
+                            contentDiv.style.display = 'none';
+                            event.target.textContent = 'Show Rounds';
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error loading game history:', error);
+                gameResultsTableBody.innerHTML = '<tr><td colspan="10">Error loading game history. Please try again later.</td></tr>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campaign Registration - The Dirty d6 Dozen</title>
+    <!-- Favicon Link -->
+    <link rel="icon" href="../../images/Invert_Small_Logo.png" type="image/png">
+    
+    <!-- Link to the same Google Fonts for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Re-using the same CSS variables for consistent theme */
+        :root {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --link-color: #A0A0A0;
+            --link-hover-color: #FFFFFF;
+            --accent-color: #D3D3D3;
+            --font-main: 'Roboto', sans-serif;
+            --font-display: 'Quantico', sans-serif;
+        }
+
+        /* NEW: CSS to hide the honeypot field */
+        .hidden {
+            display: none;
+        }
+
+        /* All general styling from index.html is applied here for consistency */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--bg-color);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .banner-img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: var(--bg-color);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        nav ul li a:hover {
+            color: var(--link-hover-color);
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .section-block {
+            background-color: #1a1a1a;
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #008CBA;
+            color: var(--text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .cta-button:hover {
+            background-color: #007bb5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .return-link {
+            color: var(--link-color);
+            text-decoration: underline;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            font-family: var(--font-display);
+        }
+
+        .return-link:hover {
+            color: var(--link-hover-color);
+            text-decoration: none;
+        }
+
+        /* Form Styling (reused and adapted) */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--text-color);
+            font-family: var(--font-display);
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"], /* Added email type */
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            background-color: #111;
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 0.9em;
+        }
+        .form-group select {
+            width: 100%;
+        }
+        .form-group input[type="submit"] {
+            display: block;
+            width: 100%;
+            background-color: #008CBA;
+            color: var(--text-color);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-family: var(--font-display);
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #007bb5;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #0d0d0d;
+            color: var(--link-color);
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--accent-color);
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            max-width: 60px;
+            height: auto;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Adjustments (copied from index.html for consistency) */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            .cta-button { font-size: 1em; padding: 12px 25px; }
+            form { padding: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            h1 { font-size: 1.2em; }
+            h2 { font-size: 1.1em; }
+            p { font-size: 0.95em; }
+            .banner-img { max-width: 95%; }
+            .form-group input[type="text"],
+            .form-group input[type="email"],
+            .form-group select,
+            .form-group textarea { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="../../images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../index.html#about">About Us</a></li>
+                <li><a href="../../index.html#games">Games We Play</a></li>
+                <li><a href="../../events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="../../past_events.html">Past Events</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="registration-form-section" class="section-block">
+            <h1>Register for Warband Wars!</h1>
+            <h2>Join the Age of Sigmar Narrative Campaign</h2>
+            <p>Prepare your warband, champion! Fill out the form below to register for The Dirty d6 Dozen's Age of Sigmar: Warband Wars campaign. Once registered, you'll be added to the official player roster and leaderboard!</p>
+            <p>The system is not instant and my take a minute or so to process before you will see your Warband appear</p>
+            <p class="muted">All fields are required. Your Player Name, Faction, and Warband Name will appear on the public leaderboard.</p>
+            
+            <form name="campaign-registration" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/.netlify/functions/register-player" onsubmit="handleRegistrationSubmit(event)"> <!-- ADDED onsubmit -->
+                <input type="hidden" name="form-name" value="campaign-registration" />
+                <p class="hidden">
+                    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+                </p>
+
+                <div class="form-group">
+                    <label for="player_name">Your Player Name:</label>
+                    <input type="text" id="player_name" name="player_name" required placeholder="e.g., Bevan 'The Butcher' Bond">
+                </div>
+
+                <div class="form-group">
+                    <label for="player_faction">Your Primary Faction:</label>
+                    <select id="player_faction" name="player_faction" required>
+                        <option value="">-- Select Your Faction --</option>
+                        <!-- Options will be loaded by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="warband_name">Your Warband Name:</label>
+                    <input type="text" id="warband_name" name="warband_name" required placeholder="e.g., The Bonegrinder Tribe">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Register Warband">
+                </div>
+            </form>
+        </section>
+
+        <div class="call-to-action">
+            <a href="campaigns/warband-wars/aos_campaign.html" class="cta-button">Return to Warband Wars Campaign</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="../../images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript to load AoS Factions into the dropdown
+        document.addEventListener('DOMContentLoaded', async () => {
+            const playerFactionSelect = document.getElementById('player_faction');
+            
+            try {
+                const response = await fetch('../../data/aos_factions.json');
+                const factions = await response.json();
+
+                factions.sort().forEach(faction => { // Sort factions alphabetically
+                    const option = document.createElement('option');
+                    option.value = faction;
+                    option.textContent = faction;
+                    playerFactionSelect.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error('Error loading AoS Factions:', error);
+                // Optionally display an error message if factions fail to load
+            }
+        });
+
+        // JavaScript function to handle form submission via Fetch API
+        async function handleRegistrationSubmit(event) {
+            event.preventDefault(); // Prevent default browser form submission
+
+            const form = event.target;
+            const submitButton = form.querySelector('input[type="submit"]');
+
+            submitButton.value = 'Registering...';
+            submitButton.disabled = true;
+
+            const formData = new FormData(form);
+            const body = new URLSearchParams(formData).toString();
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body
+                });
+
+                if (response.ok) {
+                    // On successful submission (function returns 200 OK), redirect to thank you page
+                    window.location.href = '/thank-you-registration'; // Use the friendly URL
+                } else {
+                    // Handle errors from the Netlify Function
+                    const errorData = await response.json();
+                    alert(`Registration failed: ${errorData.message || response.statusText}. Check console for details.`);
+                    console.error('Netlify Function Error:', errorData);
+                    submitButton.value = 'Register Warband';
+                    submitButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Network error during registration:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+                submitButton.value = 'Register Warband';
+                submitButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

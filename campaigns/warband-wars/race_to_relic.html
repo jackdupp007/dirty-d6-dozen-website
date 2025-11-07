@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Battleplan: Race to the Relic — AoS4 (500 pt)</title>
+  <!-- Favicon Link -->
+  <link rel="icon" href="../../images/Invert_Small_Logo.png" type="image/png">
+
+  <!-- Google Fonts import: Quantico for headings, Roboto for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables for easy theme changes (matches club theme) */
+    :root {
+        --bg-color: #000000; /* Main page background */
+        --block-bg-color: #1a1a1a; /* Background for content blocks */
+        --text-color: #FFFFFF; /* Main white text */
+        --link-color: #A0A0A0; /* Light grey for links */
+        --link-hover-color: #FFFFFF; /* White on hover */
+        --accent-color: #D3D3D3; /* Light grey accent for borders/details */
+        --input-bg-color: #3f3f3f; /* Lighter dark for input fields */
+        --button-primary: #008CBA; /* Blue from CTA buttons */
+        --button-primary-hover: #007bb5;
+        --button-secondary: #7f2a2a; /* Reddish brown for specific actions */
+        --button-secondary-hover: #6a2424;
+
+        --font-main: 'Roboto', sans-serif;
+        --font-display: 'Quantico', sans-serif; /* Military-style font for headings */
+    }
+
+    /* CSS to hide the honeypot field */
+    .hidden {
+        display: none;
+    }
+
+    /* Basic page */
+    html,body{
+      margin:0;
+      padding:0;
+      font-family: var(--font-main);
+      background-color: var(--bg-color); /* Apply main black background */
+      color: var(--text-color);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    .container{ /* General container for content width */
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px; /* Added horizontal padding to container */
+      box-sizing: border-box;
+    }
+
+    /* Header Styling */
+    header {
+        background-color: var(--bg-color);
+        padding: 20px 0; /* Padding handled by header itself */
+        text-align: center;
+    }
+
+    .banner-img {
+        max-width: 90%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Navigation Styling */
+    nav {
+        background-color: var(--bg-color);
+        padding: 10px 0; /* Padding handled by nav itself */
+        text-align: center;
+        border-top: 1px solid var(--accent-color);
+        border-bottom: 1px solid var(--accent-color);
+        margin-bottom: 30px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    nav ul li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+
+    nav ul li a {
+        color: var(--link-color);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1em;
+        transition: color 0.3s ease;
+        font-family: var(--font-display);
+    }
+
+    nav ul li a:hover {
+        color: var(--link-hover-color);
+    }
+
+    main { /* Main content area, now only a flex container for sections */
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 30px; /* Space between main sections */
+    }
+
+    .title {
+      color: var(--ink-red);
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight:800;
+      margin: 0 0 6px 0;
+      letter-spacing: 0.5px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 0 0 20px 0;
+      text-align: center;
+    }
+
+    /* Standard section-block styling */
+    .section-block {
+        background-color: var(--block-bg-color);
+        border: 1px solid var(--accent-color);
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 255, 255, 0.05);
+    }
+
+    h2{
+      font-family: var(--font-display);
+      color: var(--text-color);
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 1.5em;
+      font-weight: 700;
+      border-bottom: 1px solid var(--accent-color);
+      padding-bottom: 8px;
+    }
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.2em;
+      text-align: left;
+      letter-spacing: 1px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+
+    h4 { /* For player names in tracking UI */
+        font-family: var(--font-display);
+        font-size: 1.1em;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: var(--link-hover-color);
+    }
+
+
+    p, li { font-size: 0.95rem; line-height:1.6; margin: 6px 0; color: var(--text-color); }
+    ul { margin:6px 0 8px 18px; padding:0; }
+
+    strong { color: var(--text-color); font-weight:700; }
+
+    /* Map Image Section Styling */
+    .map-section {
+      text-align: center;
+    }
+    .map-section img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+    }
+    .map-section p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* General Button Styling (consolidated) */
+    .action-button {
+        background-color: var(--button-secondary);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: bold;
+        margin: 8px 0;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: background-color 0.2s ease;
+    }
+    .action-button:hover {
+        background-color: var(--button-secondary-hover);
+    }
+    /* Specific button overrides */
+    .start-game-button, .confirm-players-button {
+      background-color: var(--button-primary);
+    }
+    .start-game-button:hover, .confirm-players-button:hover {
+      background-color: var(--button-primary-hover);
+    }
+    .pdf-button { /* PDF button is also an action-button */
+      background-color: var(--link-color);
+    }
+    .pdf-button:hover {
+      background-color: var(--muted);
+    }
+
+
+    /* Player Selection & Game UI Styling */
+    .player-selection-panel, .game-tracking-panel {
+        background-color: var(--block-bg-color);
+        border: 1px solid var(--accent-color);
+        border-radius: 8px;
+        padding: 20px;
+        color: var(--text-color);
+    }
+    .player-selection-panel h3, .game-tracking-panel h3 {
+        color: var(--text-color);
+        font-family: var(--font-display);
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 0;
+    }
+    .player-selection-panel label, .game-tracking-panel label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 700;
+        color: var(--text-color);
+        font-family: var(--font-main);
+        font-size: 0.95em;
+        letter-spacing: normal;
+    }
+    .player-selection-panel select,
+    .game-tracking-panel input[type="number"],
+    .game-tracking-panel input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--accent-color);
+        border-radius: 4px;
+        background-color: var(--input-bg-color);
+        color: var(--text-color);
+        font-family: var(--font-main);
+        font-size: 1em;
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+    }
+    .player-selection-panel select option {
+        background-color: var(--input-bg-color);
+        color: var(--text-color);
+    }
+    .player-score-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .player-score-controls button {
+        background-color: var(--button-primary);
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-size: 1em;
+        transition: background-color 0.2s;
+    }
+    .player-score-controls button:hover {
+        background-color: var(--button-primary-hover);
+    }
+    .player-score-controls input[type="number"] {
+        flex-grow: 1;
+        text-align: center;
+    }
+    .current-round-display {
+        font-family: var(--font-display);
+        font-size: 1.2em;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 8px;
+        border: 1px solid var(--accent-color);
+        background-color: var(--input-bg-color);
+        color: var(--text-color);
+        border-radius: 4px;
+    }
+
+    .notes { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
+
+    /* Footer styling */
+    footer {
+        background-color: #0d0d0d;
+        color: var(--link-color);
+        text-align: center;
+        padding: 25px 0;
+        border-top: 1px solid var(--accent-color);
+        margin-top: 40px;
+    }
+
+    .footer-logo {
+        max-width: 60px;
+        height: auto;
+        margin-top: 15px;
+        opacity: 0.8;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Call-to-action button container styling */
+    .call-to-action {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Standard CTA button style */
+    .cta-button {
+        display: inline-block;
+        background-color: var(--button-primary);
+        color: var(--text-color);
+        padding: 15px 30px;
+        text-decoration: none;
+        font-family: var(--font-display);
+        font-size: 1.2em;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        letter-spacing: 1px;
+        font-weight: 700;
+        max-width: 300px;
+        box-sizing: border-box;
+    }
+
+    .cta-button:hover {
+        background-color: var(--button-primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 255, 255, 0.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 800px){
+      main { gap: 20px; }
+      .title{ font-size: 1.5rem; }
+      .subtitle{ font-size: 0.9rem; }
+      h2{ font-size: 1.2em; margin-bottom: 15px;}
+      p, li { font-size: 0.9em; }
+      .container{ margin: 8px; padding: 5px;}
+      .section-block { padding: 15px; }
+      .action-button { padding: 8px 10px; font-size: 0.9em; }
+      .player-selection-panel, .game-tracking-panel { padding: 15px; }
+      .player-score-controls button { padding: 6px 10px; font-size: 0.85em; }
+      .player-selection-panel select, .game-tracking-panel input[type="number"], .game-tracking-panel input[type="text"] { font-size: 0.9em; padding: 8px; }
+      .cta-button { font-size: 1em; padding: 12px 25px; max-width: 100%; }
+    }
+
+    @media (max-width: 420px){
+      .title{ font-size: 1.2rem; }
+      .subtitle{ font-size: 0.85rem; }
+      p, li { font-size: 0.85em; }
+      h2{ font-size: 1.1em; }
+      .action-button { font-size: 0.85em; padding: 6px 8px; }
+      .player-score-controls button { font-size: 0.8em; padding: 5px 8px; }
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="../../images/DD6completeinvert.png" alt="The Dirty d6 Dozen Club Banner" class="banner-img" />
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../index.html#about">About Us</a></li>
+                <li><a href="../../events_campaigns.html">Events & Campaigns</a></li>
+                <li><a href="../../past_events.html">Past Events</a></li>
+                <li><a href="../../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Battleplan Title & Subtitle Section -->
+        <section class="section-block" style="margin-bottom:0;">
+            <div class="title">Battleplan: Race to the Relic</div>
+            <div class="subtitle">Fast racing scenario for 500‑point Warbands</div>
+        </section>
+
+        <!-- 1st: Rules & Setup Section -->
+        <section class="section-block">
+            <h2>Setup</h2>
+            <p><strong>Points:</strong> 500 pts per player or Spearhead vs Spearhead.</p>
+            <p><strong>Board size:</strong> Standard table size (use 4' x 6' if you want more running room).</p>
+            <p class="muted">Terrain: LOS blockers so no army can be seen at deployment.</p>
+
+            <h2>Deployment &amp; Relic placement</h2>
+            <p>Place the <strong>Relic</strong> on the centreline, <strong>6"</strong> from the short table edge of the player who goes second. Deployment follows normal rules. The first player may move toward the Relic but <strong>cannot pick it up on Turn 1</strong>.</p>
+
+            <h2>Special Rules (Relic &amp; Carrying)</h2>
+            <ul>
+              <li><strong>Picking up:</strong> A model can pick up the Relic if it ends a Move or Charge within <strong>1"</strong> of it.</li>
+              <li><strong>Carrying:</strong> Only the designated model is the carrier. Carrier’s Movement is reduced by <strong>1"</strong> and the carrier <strong>cannot run</strong>.</li>
+              <li class="muted">Flying: Flying units lose their Flying keyword while carrying the Relic; the relic is too heavy to lift.</li>
+              <li><strong>Dropping:</strong> Carrier may drop at the end of its Movement; if removed from play the Relic drops where it left play.</li>
+              <li><strong>Teleporting:</strong> A unit cannot be teleported while carrying the Relic. If a rule attempts to teleport a unit that has the Relic, the Relic is dropped at the unit's original location instead.</li>
+              <li><strong>Contested:</strong> If within <strong>3"</strong> of models from both players the Relic is contested and cannot be delivered.</li>
+              <li><strong>Relic Combat:</strong> If the unit carrying the Relic is engaged in combat, it may forgo fighting to make a break‑free attempt: after all eligible units have taken their combat actions, the carrier may attempt to break free and move its Movement characteristic to disengage (subject to core break‑free rules).</li>
+            </ul>
+
+            <h2>Turn &amp; First Turn</h2>
+            <p>Game uses the normal core turn sequence. <strong>First player cannot pick up the Relic on Turn 1.</strong></p>
+
+            <h2>Victory Conditions</h2>
+            <p><strong>Immediate race win:</strong> If at the end of your Movement phase you have the Relic within <strong>3"</strong> of your opponent’s short edge and you control it (not contested), you immediately win.</p>
+            <p class="muted">If no immediate winner by end of Round 6, score points:</p>
+            <ul>
+              <li>3 pts — Relic is in opponent’s half (beyond centreline)</li>
+              <li>2 pts — Controls Relic (carrier or uncontested presence within 3") at game end</li>
+              <li>1 pt — More models within 6" of the Relic at game end</li>
+              <li>Tiebreaker: most battleline units remaining, then defender of deployment if still tied</li>
+            </ul>
+        </section>
+
+        <!-- 2nd: Battleplan Map Section -->
+        <section class="section-block map-section">
+            <h2>Battleplan Map</h2>
+            <img src="../../images/race_to_relic_map.jpg" alt="Battleplan map for Race to the Relic scenario" /> <!-- UPDATED IMAGE SRC -->
+        </section>
+
+        <!-- 3rd: Player Input / Game Tracking Section -->
+        <section id="game-controls-section" class="section-block">
+            <button class="action-button start-game-button" id="startGameButton">Start New Game!</button>
+
+            <div id="playerSelection" class="player-selection-panel" style="display:none;">
+                <h3>Select Players</h3>
+                <div class="form-group">
+                    <label for="player1Select">Player 1:</label>
+                    <select id="player1Select" required>
+                        <option value="">-- Select Player 1 --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="player2Select">Player 2:</label>
+                    <select id="player2Select" required>
+                        <option value="">-- Select Player 2 --</option>
+                    </select>
+                </div>
+                <button class="action-button confirm-players-button" id="confirmPlayersButton">Confirm Players</button>
+                <p id="playerSelectionError" style="color:red; font-size:0.85em; margin-top:10px; display:none;">Players cannot be the same.</p>
+            </div>
+
+            <div id="gameTrackingUI" class="game-tracking-panel" style="display:none;">
+                <h3 id="gameTitle">Game in Progress</h3>
+                <div class="current-round-display">Round: <span id="currentRound">1</span></div>
+                <div id="whoWentFirstSection" class="form-group" style="margin-top: 15px; display: none;">
+                    <label for="wentFirstSelect">Who went first this round?</label>
+                    <select id="wentFirstSelect" required>
+                        <option value="">-- Select Player --</option>
+                        <!-- Options populated by JS after player selection -->
+                    </select>
+                </div>
+                <h4><span id="player1NameDisplay">Player 1</span></h4>
+                <div class="form-group">
+                    <label for="player1CP">Command Points:</label>
+                    <div class="player-score-controls">
+                        <button onclick="changeValue('player1CP', -1)">-</button>
+                        <input type="number" id="player1CP" value="0" min="0">
+                        <button onclick="changeValue('player1CP', 1)">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="player1Score">Victory Points:</label>
+                    <div class="player-score-controls">
+                        <button onclick="changeValue('player1Score', -1)">-</button>
+                        <input type="number" id="player1Score" value="0" min="0">
+                        <button onclick="changeValue('player1Score', 1)">+</button>
+                    </div>
+                </div>
+
+                <h4><span id="player2NameDisplay">Player 2</span></h4>
+                <div class="form-group">
+                    <label for="player2CP">Command Points:</label>
+                    <div class="player-score-controls">
+                        <button onclick="changeValue('player2CP', -1)">-</button>
+                        <input type="number" id="player2CP" value="0" min="0">
+                        <button onclick="changeValue('player2CP', 1)">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="player2Score">Victory Points:</label>
+                    <div class="player-score-controls">
+                        <button onclick="changeValue('player2Score', -1)">-</button>
+                        <input type="number" id="player2Score" value="0" min="0">
+                        <button onclick="changeValue('player2Score', 1)">+</button>
+                    </div>
+                </div>
+                <h3 id="underdogDisplay" style="text-align: center; color: var(--accent-color); margin-top: 25px; display: none;"></h3>
+                <button class="action-button end-round-button" id="endRoundButton">End Round</button>
+                <button class="action-button end-game-button" id="endGameButton">End Game & Submit</button>
+
+
+                <div id="roundHistoryDisplay" class="section-block" style="display: none; margin-top: 25px; padding: 15px;">
+                    <h3 style="text-align: center; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid var(--accent-color); padding-bottom: 5px;">Round History</h3>
+                    <ul id="roundHistoryList" style="list-style: none; padding: 0;">
+                        <!-- Round details will be inserted here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4th: Balance Tips Section -->
+        <section class="section-block">
+            <h2>Balance Tips & Resources</h2>
+            <ul>
+                <li>For a balanced game, ensure both armies are built to the same agreed-upon points value (e.g., 500pts).</li>
+                <li>Consider the impact of units with high Movement or Teleportation abilities in this race scenario.</li>
+                <li>Focus on securing the relic and moving it towards your opponent's edge.</li>
+                <li><strong>PDF Rules:</strong> <button class="action-button pdf-button" onclick="window.print()">Save this Battleplan as PDF</button></li>
+            </ul>
+            <div class="notes">
+                <strong>Quick tactics:</strong> use a fast skirmisher to grab the Relic, supported by screens to slow the enemy.
+            </div>
+        </section>
+
+        <!-- 5th: Quick FAQ Section -->
+        <section class="section-block">
+            <h2>Quick FAQ & Clarifications</h2>
+            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">How is 'control' determined?</button>
+            <div class="content">
+                <p>Control of the Relic is typically determined by having more models within 3" of it than your opponent. Refer to your chosen rulebook's general objective control rules if clarification is needed.</p>
+            </div>
+            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">What if the Relic is contested at game end?</button>
+            <div class="content">
+                <p>As per the 'Immediate Race Win' rule, if the Relic is contested, no player achieves an immediate win. If the game ends on Round 6 with the Relic contested, then neither player scores the 'Control Relic' points for that condition, and the other end-game points and tiebreakers apply.</p>
+            </div>
+            <button class="collapsible" aria-expanded="false" onclick="toggleCollapsible(this)">Can heroes carry the Relic?</button>
+            <div class="content">
+                <p>Yes, any model (including Heroes) can pick up and carry the Relic, subject to the movement restrictions mentioned in the 'Special Rules (Relic & Carrying)' section.</p>
+            </div>
+        </section>
+
+        <div class="call-to-action">
+            <a href="campaigns/warband-wars/aos_campaign.html" class="cta-button">Return to Warband Wars</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2018 The Dirty d6 Dozen Wargaming Club. All rights reserved. (hehe)</p>
+            <img src="../../images/Invert_Small_Logo.png" alt="Dirty d6 Dozen Small Logo" class="footer-logo" />
+        </div>
+    </footer>
+
+<script>
+    // --- Global Variables ---
+    let allPlayers = []; // Stores loaded players from players.json
+    let gameData = {
+        player1: null,
+        player2: null,
+        currentRound: 1,
+        attleplan: 'Race to the Relic', // <<< IMPORTANT: Update this line for each battleplan page!
+                                  // 'Race to the Relic' for race_to_relic.html
+                                  // 'Spearhead / Custom Battleplan' for spearhead_custom_battleplan.html
+                                  // 'The Ritual' for the_ritual_aos4.html
+        roundHistory: [] // Stores objects like { round: 1, player1CP_start: 4, player1CP_end: 2, player1Score_end: 10, player2CP_start: 4, player2CP_end: 1, player2Score_end: 5, wentFirst: 'player1Id' }
+    };
+
+    // --- DOM Element References ---
+    const startGameButton = document.getElementById('startGameButton');
+    const playerSelectionPanel = document.getElementById('playerSelection');
+    const player1Select = document.getElementById('player1Select');
+    const player2Select = document.getElementById('player2Select');
+    const confirmPlayersButton = document.getElementById('confirmPlayersButton');
+    const playerSelectionError = document.getElementById('playerSelectionError');
+    const gameTrackingUI = document.getElementById('gameTrackingUI');
+    const gameTitleDisplay = document.getElementById('gameTitle');
+    const currentRoundDisplay = document.getElementById('currentRound');
+    const player1NameDisplay = document.getElementById('player1NameDisplay');
+    const player2NameDisplay = document.getElementById('player2NameDisplay');
+    const player1CPInput = document.getElementById('player1CP');
+    const player1ScoreInput = document.getElementById('player1Score');
+    const player2CPInput = document.getElementById('player2CP');
+    const player2ScoreInput = document.getElementById('player2Score');
+    const endRoundButton = document.getElementById('endRoundButton');
+    const endGameButton = document.getElementById('endGameButton');
+
+    // --- NEW DOM Element References ---
+    const wentFirstSelect = document.getElementById('wentFirstSelect');
+    const whoWentFirstSection = document.getElementById('whoWentFirstSection');
+    const underdogDisplay = document.getElementById('underdogDisplay');
+    const roundHistoryDisplay = document.getElementById('roundHistoryDisplay');
+    const roundHistoryList = document.getElementById('roundHistoryList');
+
+    // --- Utility Functions ---
+    function toggleCollapsible(btn){
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    }
+
+    function changeValue(inputId, delta) {
+        const input = document.getElementById(inputId);
+        let currentValue = parseInt(input.value) || 0;
+        input.value = Math.max(0, currentValue + delta);
+        // If scores change, update underdog display immediately
+        if (inputId === 'player1Score' || inputId === 'player2Score') {
+            updateUnderdogDisplay();
+        }
+    }
+
+    // --- NEW Function: Update Underdog Display ---
+    function updateUnderdogDisplay() {
+        // Only display if players are selected and scores are available
+        if (!gameData.player1 || !gameData.player2 || isNaN(parseInt(player1ScoreInput.value)) || isNaN(parseInt(player2ScoreInput.value))) {
+            underdogDisplay.style.display = 'none';
+            return;
+        }
+
+        const p1Score = parseInt(player1ScoreInput.value);
+        const p2Score = parseInt(player2ScoreInput.value);
+
+        underdogDisplay.style.display = 'block'; // Ensure it's visible
+
+        if (p1Score === p2Score) {
+            underdogDisplay.textContent = "Scores are tied!";
+            underdogDisplay.style.color = 'var(--accent-color)'; // Grey/white
+        } else if (p1Score < p2Score) {
+            underdogDisplay.textContent = `${gameData.player1.name} is the underdog!`;
+            underdogDisplay.style.color = 'yellow';
+        } else { // p2Score < p1Score
+            underdogDisplay.textContent = `${gameData.player2.name} is the underdog!`;
+            underdogDisplay.style.color = 'yellow';
+        }
+    }
+
+    // --- NEW Function: Render Round History ---
+    function renderRoundHistory() {
+        roundHistoryList.innerHTML = ''; // Clear previous entries
+        if (gameData.roundHistory.length === 0) {
+            roundHistoryDisplay.style.display = 'none'; // Hide if no history
+            return;
+        }
+
+        roundHistoryDisplay.style.display = 'block'; // Show history section
+
+        // Display in reverse order (newest round first)
+        for (let i = gameData.roundHistory.length - 1; i >= 0; i--) {
+            const round = gameData.roundHistory[i];
+            const wentFirstName = round.wentFirst === gameData.player1.id ? gameData.player1.name : gameData.player2.name;
+
+            const listItem = document.createElement('li');
+            listItem.style.marginBottom = '8px';
+            listItem.style.padding = '5px 0';
+            listItem.style.borderBottom = '1px dashed rgba(211, 211, 211, 0.1)'; // Subtle separator
+
+            listItem.innerHTML = `
+                <strong>Round ${round.round}:</strong>
+                <br> &nbsp; ${gameData.player1.name}: ${round.player1Score_end} VP (${round.player1CP_end} CP remaining)
+                <br> &nbsp; ${gameData.player2.name}: ${round.player2Score_end} VP (${round.player2CP_end} CP remaining)
+                <br> &nbsp; (Went First: ${wentFirstName})
+            `;
+            roundHistoryList.appendChild(listItem);
+        }
+         // Remove dashed border from the last item
+        if (roundHistoryList.lastChild) {
+            roundHistoryList.lastChild.style.borderBottom = 'none';
+        }
+    }
+
+    // --- Main Game Logic ---
+
+    // Loads players into dropdowns
+    async function loadPlayersIntoDropdowns() {
+        try {
+            // Adjust path based on your new folder structure
+            const response = await fetch('../../data/players.json');
+            allPlayers = await response.json();
+
+            // Clear existing options
+            player1Select.innerHTML = '<option value="">-- Select Player 1 --</option>';
+            player2Select.innerHTML = '<option value="">-- Select Player 2 --</option>';
+
+            allPlayers.forEach(player => {
+                const option1 = document.createElement('option');
+                option1.value = player.id;
+                option1.textContent = `${player.name} (${player.warband_name || player.faction})`;
+                player1Select.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = player.id;
+                option2.textContent = `${player.name} (${player.warband_name || player.faction})`;
+                player2Select.appendChild(option2);
+            });
+
+        } catch (error) {
+            console.error('Error loading players:', error);
+            alert('Failed to load player list. Please try again later.');
+            startGameButton.disabled = true; // Disable start game if players can't load
+        }
+    }
+
+    // Starts the game by showing player selection
+    startGameButton.addEventListener('click', () => {
+        startGameButton.style.display = 'none';
+        playerSelectionPanel.style.display = 'block';
+        loadPlayersIntoDropdowns();
+    });
+
+    // Confirms player selection and shows game tracking UI
+    confirmPlayersButton.addEventListener('click', () => {
+        const p1Id = player1Select.value;
+        const p2Id = player2Select.value;
+
+        if (!p1Id || !p2Id) {
+            playerSelectionError.textContent = 'Please select both players.';
+            playerSelectionError.style.display = 'block';
+            return;
+        }
+
+        if (p1Id === p2Id) {
+            playerSelectionError.textContent = 'Players cannot be the same. Please select different players.';
+            playerSelectionError.style.display = 'block';
+            return;
+        }
+
+        playerSelectionError.style.display = 'none';
+
+        // Find selected player objects
+        gameData.player1 = allPlayers.find(p => p.id === p1Id);
+        gameData.player2 = allPlayers.find(p => p.id === p2Id);
+
+        if (!gameData.player1 || !gameData.player2) {
+            playerSelectionError.textContent = 'Selected players not found. Please reload.';
+            playerSelectionError.style.display = 'block';
+            return;
+        }
+
+        // Initialize UI with player names
+        player1NameDisplay.textContent = gameData.player1.name;
+        player2NameDisplay.textContent = gameData.player2.name;
+        gameTitleDisplay.textContent = `${gameData.player1.name} (${gameData.player1.warband_name || gameData.player1.faction}) vs ${gameData.player2.name} (${gameData.player2.warband_name || gameData.player2.faction})`;
+
+        // Initialize Round 1 CP and Scores
+        gameData.currentRound = 1;
+        currentRoundDisplay.textContent = gameData.currentRound;
+        player1CPInput.value = 4;
+        player2CPInput.value = 4;
+        player1ScoreInput.value = 0; // Start with 0 VP
+        player2ScoreInput.value = 0; // Start with 0 VP
+
+        // Store starting CP for round history (used by endRoundButton)
+        player1CPInput.dataset.startingCP = player1CPInput.value;
+        player2CPInput.dataset.startingCP = player2CPInput.value;
+
+        // Clear previous round history if any (from a previous game on same page)
+        gameData.roundHistory = [];
+
+        // Populate "Who Went First" dropdown
+        wentFirstSelect.innerHTML = `
+            <option value="">-- Select Player --</option>
+            <option value="${gameData.player1.id}">${gameData.player1.name}</option>
+            <option value="${gameData.player2.id}">${gameData.player2.name}</option>
+        `;
+        wentFirstSelect.value = ""; // No default selection
+
+        // Hide player selection, show game tracking UI elements
+        playerSelectionPanel.style.display = 'none';
+        gameTrackingUI.style.display = 'block';
+        whoWentFirstSection.style.display = 'block'; // Show who went first selector
+
+        updateUnderdogDisplay(); // Initialize underdog display
+        renderRoundHistory();   // Initialize history display (will be empty)
+    });
+
+    // Ends a round, increments round counter
+    endRoundButton.addEventListener('click', () => {
+        const wentFirstPlayerId = wentFirstSelect.value;
+        if (!wentFirstPlayerId) {
+            alert("Please select which player went first this round before ending it.");
+            return;
+        }
+
+        const confirmEndRound = confirm(`End Round ${gameData.currentRound}?`);
+        if (!confirmEndRound) return;
+
+        // Store round data before incrementing round
+        gameData.roundHistory.push({
+            round: gameData.currentRound,
+            player1CP_start: parseInt(player1CPInput.dataset.startingCP),
+            player1CP_end: parseInt(player1CPInput.value),
+            player1Score_end: parseInt(player1ScoreInput.value), // Cumulative VP at end of round
+            player2CP_start: parseInt(player2CPInput.dataset.startingCP),
+            player2CP_end: parseInt(player2CPInput.value),
+            player2Score_end: parseInt(player2ScoreInput.value), // Cumulative VP at end of round
+            wentFirst: wentFirstPlayerId
+        });
+
+        // After storing, render the history
+        renderRoundHistory();
+
+        gameData.currentRound++;
+        currentRoundDisplay.textContent = gameData.currentRound;
+
+        alert(`Round ${gameData.currentRound - 1} ended. Starting Round ${gameData.currentRound}.\nEach player receives 4 Command Points.`);
+
+        // Reset CP to 4 for the new round
+        player1CPInput.value = 4;
+        player2CPInput.value = 4;
+        // Store starting CP for the new round
+        player1CPInput.dataset.startingCP = player1CPInput.value;
+        player2CPInput.dataset.startingCP = player2CPInput.value;
+
+        // Reset "Who Went First" selection
+        wentFirstSelect.value = "";
+
+        updateUnderdogDisplay(); // Update underdog display after round end
+    });
+
+    // Ends the game and prepares for submission
+    endGameButton.addEventListener('click', () => {
+        const confirmEnd = confirm("Are you sure you want to end the game and submit results?");
+        if (!confirmEnd) return;
+
+        // Capture final scores
+        const finalPlayer1Score = parseInt(player1ScoreInput.value);
+        const finalPlayer2Score = parseInt(player2ScoreInput.value);
+
+        // Prepare comprehensive submission data
+        const submissionData = {
+            player1_id: gameData.player1.id,
+            player1_name: gameData.player1.name,
+            player1_score: finalPlayer1Score,
+            player1_faction: gameData.player1.faction,
+            player1_warband: gameData.player1.warband_name || 'N/A', // Ensure warband is always present
+
+            player2_id: gameData.player2.id,
+            player2_name: gameData.player2.name,
+            player2_score: finalPlayer2Score,
+            player2_faction: gameData.player2.faction,
+            player2_warband: gameData.player2.warband_name || 'N/A', // Ensure warband is always present
+
+            battleplan_name: gameData.battleplan,
+            total_rounds: gameData.currentRound,
+            game_date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+            round_history: gameData.roundHistory // Pass the full history
+        };
+
+        // Store submission data in sessionStorage to pass to submit_game.html
+        sessionStorage.setItem('gameSubmissionData', JSON.stringify(submissionData));
+
+        // Redirect to the submission page (relative path within campaign folder)
+        window.location.href = 'submit_game.html';
+    });
+
+    // --- Initialization on Page Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const collapsibles = document.querySelectorAll('.collapsible');
+        collapsibles.forEach(btn => {
+          btn.addEventListener('click', () => toggleCollapsible(btn));
+        });
+        // Ensure UI elements are hidden initially
+        whoWentFirstSection.style.display = 'none';
+        underdogDisplay.style.display = 'none';
+        roundHistoryDisplay.style.display = 'none'; // Keep hidden initially
+    });
+</script>
+</body>
+</html>
