@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1762519662378",
+    "date": "2025-11-07",
+    "battleplan": "Spearhead / Custom Battleplan",
+    "total_rounds": 3,
+    "player1": {
+      "id": "bevanbond71695",
+      "name": "Bevan Bond",
+      "faction": "Disciples of Tzeentch",
+      "warband": "Cryspie Makers",
+      "score": 15
+    },
+    "player2": {
+      "id": "ayden87778",
+      "name": "Ayden",
+      "faction": "Ossiarch Bonereapers",
+      "warband": "Bone Brigade",
+      "score": 10
+    },
+    "notes": "",
+    "round_history": [
+      {
+        "round": 1,
+        "player1CP_start": 4,
+        "player1CP_end": 4,
+        "player1Score_end": 10,
+        "player2CP_start": 4,
+        "player2CP_end": 4,
+        "player2Score_end": 5,
+        "wentFirst": "bevanbond71695"
+      },
+      {
+        "round": 2,
+        "player1CP_start": 4,
+        "player1CP_end": 4,
+        "player1Score_end": 15,
+        "player2CP_start": 4,
+        "player2CP_end": 4,
+        "player2Score_end": 10,
+        "wentFirst": "ayden87778"
+      }
+    ],
+    "submitted_at": "2025-11-07T12:47:35.816Z"
+  }
+]
