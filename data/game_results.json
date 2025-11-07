@@ -120,5 +120,59 @@
       }
     ],
     "submitted_at": "2025-11-07T13:04:20.426Z"
+  },
+  {
+    "id": "1762522720400",
+    "date": "2025-11-07",
+    "battleplan": "The Ritual",
+    "total_rounds": 4,
+    "player1": {
+      "id": "bevanbond71695",
+      "name": "Bevan Bond",
+      "faction": "Disciples of Tzeentch",
+      "warband": "Cryspie Makers",
+      "score": 25
+    },
+    "player2": {
+      "id": "adamdefunnkcohen69555",
+      "name": "Adam “Defunnk” Cohen",
+      "faction": "Gloomspite Gitz",
+      "warband": "Squigallanche",
+      "score": 10
+    },
+    "notes": "",
+    "round_history": [
+      {
+        "round": 1,
+        "player1CP_start": 4,
+        "player1CP_end": 4,
+        "player1Score_end": 10,
+        "player2CP_start": 4,
+        "player2CP_end": 4,
+        "player2Score_end": 5,
+        "wentFirst": "bevanbond71695"
+      },
+      {
+        "round": 2,
+        "player1CP_start": 4,
+        "player1CP_end": 4,
+        "player1Score_end": 10,
+        "player2CP_start": 4,
+        "player2CP_end": 4,
+        "player2Score_end": 5,
+        "wentFirst": "adamdefunnkcohen69555"
+      },
+      {
+        "round": 3,
+        "player1CP_start": 4,
+        "player1CP_end": 4,
+        "player1Score_end": 20,
+        "player2CP_start": 4,
+        "player2CP_end": 4,
+        "player2Score_end": 10,
+        "wentFirst": "bevanbond71695"
+      }
+    ],
+    "submitted_at": "2025-11-07T13:38:39.995Z"
   }
 ]
