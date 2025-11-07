@@ -86,5 +86,39 @@
       }
     ],
     "submitted_at": "2025-11-07T12:52:12.266Z"
+  },
+  {
+    "id": "1762520661358",
+    "date": "2025-11-07",
+    "battleplan": "Spearhead / Custom Battleplan",
+    "total_rounds": 2,
+    "player1": {
+      "id": "bevanbond71695",
+      "name": "Bevan Bond",
+      "faction": "Disciples of Tzeentch",
+      "warband": "Cryspie Makers",
+      "score": 15
+    },
+    "player2": {
+      "id": "adamdefunnkcohen69555",
+      "name": "Adam “Defunnk” Cohen",
+      "faction": "Gloomspite Gitz",
+      "warband": "Squigallanche",
+      "score": 5
+    },
+    "notes": "",
+    "round_history": [
+      {
+        "round": 1,
+        "player1CP_start": 4,
+        "player1CP_end": 4,
+        "player1Score_end": 10,
+        "player2CP_start": 4,
+        "player2CP_end": 4,
+        "player2Score_end": 5,
+        "wentFirst": "bevanbond71695"
+      }
+    ],
+    "submitted_at": "2025-11-07T13:04:20.426Z"
   }
 ]
